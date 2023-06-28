@@ -1,0 +1,68 @@
+@import url("/src/app/vars.css");
+
+.content {
+    margin-bottom: 1rem;
+    border-bottom: black;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: brown;
+    font-size: medium;
+}
+
+.header-print {
+    font-weight: bold;
+    font-style: oblique;
+}
+
+.line {
+    font-size: medium;
+}
+
+.sec1 {
+    padding-right: 1rem;
+}
+
+.btnSave {
+    float: right;
+}
+
+.action {
+    margin-bottom: 2rem;
+}
+
+
+.header-break {
+    page-break-before: always;
+    margin-bottom: 0.2cm;
+    margin-top: 0.2cm;
+}
+
+.titulo {
+    text-align: center;
+    margin-bottom: 0.2cm;
+    font-style: oblique;
+    margin-top: 0.2;
+}
+
+h1 {
+    font-size: larger;
+}
+
+h2 {
+    font-size: large;
+}
+
+.bloco {
+    /* height: 3cm; */
+}
+
+.divider {
+    margin-top: 0.2cm;
+    margin-bottom: 0.2cm;
+}
+
+@media print {
+    body {
+        margin: 0;
+    }
+}

@@ -1,0 +1,22 @@
+<mat-drawer-container class="container" [hasBackdrop]="'true'">
+    <mat-drawer #drawer [mode]="'over'">
+        <app-menu (onSelect)="drawer.toggle()">
+        </app-menu>
+    </mat-drawer>
+    <mat-drawer-content>
+
+        <div class="dashboard">
+            <button mat-flat-button (click)="drawer.toggle()" *ngIf="isLoged$ | async as isLoged">
+                <mat-icon class="icon-display background-gradient">dashboard</mat-icon>
+            </button>
+            <button class="logout" mat-flat-button (click)="logout()" *ngIf="isLoged$ | async as isLoged">
+                <mat-icon class="icon-display background-gradient">logout</mat-icon>
+            </button>
+            <mat-divider class="menu"></mat-divider>
+        </div>
+
+        <div class="router">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>
