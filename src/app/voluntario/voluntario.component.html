@@ -1,0 +1,33 @@
+<a mat-flat-button (click)="novoVoluntario()">
+    <mat-icon class="background-gradient">person_add</mat-icon>
+</a>
+
+<mat-expansion-panel *ngFor="let item of list">
+    <a mat-flat-button (click)="adicionaPrivilegio(item)" *ngIf="item.privilegioList.length < privilegioList.length">
+        <mat-icon class="background-gradient">add</mat-icon>
+    </a>
+    <mat-expansion-panel-header>
+        <mat-panel-title (keydown.Space)="$event.stopPropagation()">
+            <mat-form-field class="form-field" appearance="outline" (click)="$event.stopPropagation()">
+
+                <input matInput type="text" [(ngModel)]="item.nome">
+                <button *ngIf="item.nome" matSuffix mat-icon-button aria-label="Save" (click)="salvar(item)">
+                    <mat-icon>published_with_changes</mat-icon>
+                </button>
+            </mat-form-field>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list>
+        <section>
+            <span class="example-list-section">
+                <ul>
+                    <li *ngFor="let subItem of item.privilegioList">
+                        <mat-checkbox [(ngModel)]="subItem.checked" (change)="salvar(item, false)">
+                            {{subItem.descricao}}
+                        </mat-checkbox>
+                    </li>
+                </ul>
+            </span>
+        </section>
+    </mat-list>
+</mat-expansion-panel>

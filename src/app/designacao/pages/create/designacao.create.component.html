@@ -1,0 +1,22 @@
+<a mat-flat-button (click)="saveAll()" [disabled]="!selectedDate">
+    <mat-icon class="background-gradient">person_add</mat-icon>
+</a>
+
+<mat-card class="inline-calendar-card col-3 col-s-11">
+    <mat-calendar [(selected)]="selectedDate" (selectedChange)="buscaReuniao()"></mat-calendar>
+</mat-card>
+
+<div *ngIf="listPrivilegio.length > 0">
+    <mat-form-field class="example-full-width" *ngFor="let item of listPrivilegio">
+        <mat-label>{{item.descricao}}</mat-label>
+        <input type="text" placeholder="{{item.descricao}}" matInput id="busca_{{item.codigo}}"
+            [value]="search[item.codigo]" [disabled]="!selectedDate" [matAutocomplete]="auto"
+            (keyup)="busca($event, item)" (focus)="busca($event, item)">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let voluntario of this.filteredOptions[item.codigo]" [value]="voluntario"
+                (onSelectionChange)="changeSelect(item, voluntario)">
+                {{voluntario.nome}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>

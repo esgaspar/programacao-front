@@ -1,0 +1,12 @@
+<mat-expansion-panel hideToggle *ngFor="let item of list">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{item.descricao}}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list>
+        <mat-list-item *ngFor="let subItem of item.voluntarioList">
+            <span>{{subItem.nome}}</span>
+        </mat-list-item>
+    </mat-list>
+</mat-expansion-panel>

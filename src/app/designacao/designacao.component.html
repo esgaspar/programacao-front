@@ -1,0 +1,90 @@
+<div class="action">
+    <a mat-flat-button [routerLink]="'/designacao/novo'" class="btnSave">
+        <mat-icon>groups</mat-icon>
+        <span>Nova reunião</span>
+    </a>
+
+    <button printTitle="Programacão" [useExistingCss]="true" mat-flat-button printSectionId="print-section"
+        [disabled]="!startDate || !endDate" ngxPrint>Imprimir</button>
+</div>
+
+<div class="content">
+
+    <mat-form-field>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Inicio">
+            <input matEndDate formControlName="end" placeholder="Fim">
+        </mat-date-range-input>
+        <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+                <button mat-raised-button color="primary" matDateRangePickerApply (click)="getList()">Buscar</button>
+            </mat-date-range-picker-actions>
+        </mat-date-range-picker>
+
+
+        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Data inicial invalida</mat-error>
+        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Data final invalida</mat-error>
+    </mat-form-field>
+
+
+    <mat-expansion-panel *ngFor="let item of reuniaoList">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-checkbox [checked]="item.check" (click)="print();$event.stopPropagation()"
+                    (change)="item.check = !item.check">
+                </mat-checkbox>
+                {{stringToDate(item.data) | date : 'dd/MM/yyyy - EEEE'}}
+            </mat-panel-title>
+            <!-- <mat-panel-description>
+
+            </mat-panel-description> -->
+        </mat-expansion-panel-header>
+        <mat-list>
+            <mat-list-item *ngFor="let subItem of item.designacaoList">
+                <span>{{subItem.privilegio.descricao}} - {{subItem.voluntario.nome}}</span>
+            </mat-list-item>
+        </mat-list>
+    </mat-expansion-panel>
+</div>
+
+<!-- <div id="print-section" style="display: none;"> -->
+
+<div id="print-section">
+
+    <!-- <div class="page"> -->
+    <div class="titulo">
+        <h2>Indicadores e Volantes</h2>
+    </div>
+
+    <div *ngFor="let item of ds, index as i" class="bloco">
+        <div>
+            <span>
+                <h2>{{stringToDate(item['data']) | date : 'dd'}} de {{stringToDate(item['data']) | date : 'MMMM -
+                    E'}}</h2>
+            </span>
+        </div>
+
+        <div class=" header-print" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
+            <!-- <div fxFlex="15" class="sec1" fxFlex.xs="55">
+                <span>Data</span>
+            </div> -->
+            <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
+                <span>{{privilegio.descricao}}</span>
+            </div>
+        </div>
+        <mat-divider class="divider"></mat-divider>
+        <div class="content line" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
+            <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
+                <span>{{item[privilegio.codigo]}}</span>
+            </div>
+            <div>
+            </div>
+        </div>
+        <div class="header-break titulo" *ngIf="i == 6 || i == 13">
+            <h2>Indicadores e Volantes</h2>
+        </div>
+    </div>
+</div>
+<!-- </div> -->
