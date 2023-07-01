@@ -19,7 +19,7 @@ export class AuthService {
     //store JWT token in session
     authenticate(username: string, password: string) {
         return this.httpClient
-            .post<any>("http://localhost:8080/login", { username, password })
+            .post<any>("http://localhost:8080/api/login", { username, password })
             .pipe(
                 map(userData => {
                     sessionStorage.setItem("username", username);

@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "/app",
             "outputPath": "dist/programacao-front",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -37,6 +38,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/programacao",
               "budgets": [
                 {
                   "type": "initial",
@@ -52,6 +54,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "baseHref": "/programacao",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,

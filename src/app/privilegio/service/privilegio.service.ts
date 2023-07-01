@@ -8,7 +8,7 @@ import { Privilegio } from '../model/privilegio';
     providedIn: 'root'
   })
 export class PrivilegioService {
-    privilegio_url = "http://localhost:8080/privilegio"
+    privilegio_url = "http://localhost:8080/api/privilegio"
     constructor(private http: HttpClient) { }
 
 

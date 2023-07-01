@@ -2,14 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Designacao } from '../model/designacao';
-import { DatePipe } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DesignacaoService {
 
-    designacao_url = "http://localhost:8080/designacao"
+    designacao_url = "http://localhost:8080/api/designacao"
     constructor(private http: HttpClient) { }
 
 
