@@ -6,9 +6,11 @@ import { Privilegio } from '../model/privilegio';
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class PrivilegioService {
-    privilegio_url = "http://localhost:8080/api/privilegio"
+    // host = "http://localhost:8080/api/";
+    host = "http://esgaspar.cloudns.ph/api/";
+    privilegio_url = this.host + "privilegio"
     constructor(private http: HttpClient) { }
 
 
