@@ -9,13 +9,13 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: "home", component: HomeComponent, canActivate: [AuthGuard]},
-  { path: "", redirectTo: "/home", pathMatch: "full"},
+  { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+  { path: "", redirectTo: "/home", pathMatch: "full" },
   { path: 'login', component: LoginComponent },
-  { path: 'privilegio', component: PrivilegioComponent, canActivate: [AuthGuard]},
-  { path: 'voluntario', component: VoluntarioComponent, canActivate: [AuthGuard]},
-  { path: 'designacao', component: DesignacaoComponent, canActivate: [AuthGuard]},
-  { path: 'designacao/novo', component: DesignacaoCreateComponent, canActivate: [AuthGuard]},
+  { path: 'privilegio', component: PrivilegioComponent, canActivate: [AuthGuard] },
+  { path: 'voluntario', component: VoluntarioComponent, canActivate: [AuthGuard] },
+  { path: 'designacao', component: DesignacaoComponent, canActivate: [AuthGuard] },
+  { path: 'designacao/novo', component: DesignacaoCreateComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

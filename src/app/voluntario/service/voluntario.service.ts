@@ -7,7 +7,7 @@ import { Voluntario } from '../model/voluntario';
     providedIn: 'root'
 })
 export class VoluntarioService {
-    voluntario_url = "http://localhost:8080/voluntario"
+    voluntario_url = "http://localhost:8080/api/voluntario"
     constructor(private http: HttpClient) { }
 
 
