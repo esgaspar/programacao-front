@@ -8,7 +8,9 @@ import { Designacao } from '../model/designacao';
 })
 export class DesignacaoService {
 
-    designacao_url = "http://localhost:8080/api/designacao"
+    //host = "http://localhost:8080/api/";
+    host = "http://esgaspar.cloudns.ph/api/";
+    designacao_url = this.host + "designacao"
     constructor(private http: HttpClient) { }
 
 

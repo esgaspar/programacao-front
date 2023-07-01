@@ -18,8 +18,10 @@ export class AuthService {
     // Provide username and password for authentication, and once authentication is successful, 
     //store JWT token in session
     authenticate(username: string, password: string) {
+        // let host = "http://localhost:8080/api/";
+        let host = "http://esgaspar.cloudns.ph/api/";
         return this.httpClient
-            .post<any>("http://localhost:8080/api/login", { username, password })
+            .post<any>(host + "login", { username, password })
             .pipe(
                 map(userData => {
                     sessionStorage.setItem("username", username);
