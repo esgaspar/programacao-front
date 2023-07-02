@@ -38,7 +38,6 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/programacao",
               "budgets": [
                 {
                   "type": "initial",
@@ -54,7 +53,6 @@
               "outputHashing": "all"
             },
             "development": {
-              "baseHref": "/programacao",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
