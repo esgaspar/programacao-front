@@ -9,7 +9,7 @@ import { Privilegio } from '../model/privilegio';
 })
 export class PrivilegioService {
     // host = "http://localhost:8080/api/";
-    host = "http://esgaspar.cloudns.ph/api/";
+    host = "https://esgaspar.cloudns.ph/api/";
     privilegio_url = this.host + "privilegio"
     constructor(private http: HttpClient) { }
 

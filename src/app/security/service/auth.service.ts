@@ -19,7 +19,7 @@ export class AuthService {
     //store JWT token in session
     authenticate(username: string, password: string) {
         // let host = "http://localhost:8080/api/";
-        let host = "http://esgaspar.cloudns.ph/api/";
+        let host = "https://esgaspar.cloudns.ph/api/";
         return this.httpClient
             .post<any>(host + "login", { username, password })
             .pipe(
