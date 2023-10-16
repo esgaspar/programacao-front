@@ -8,8 +8,8 @@ import { Designacao } from '../model/designacao';
 })
 export class DesignacaoService {
 
-    //host = "http://localhost:8080/api/";
-    host = "https://esgaspar.cloudns.ph/api/";
+    host = "http://localhost:8080/api/";
+    // host = "https://esgaspar.cloudns.ph/api/";
     designacao_url = this.host + "designacao"
     constructor(private http: HttpClient) { }
 
@@ -28,6 +28,11 @@ export class DesignacaoService {
         let service = `/inicio/${data}/fim/${data}`;
         return this.http.get<Designacao[]>(this.designacao_url + service);
     }
+    getByMes(data: String): Observable<Designacao[]> {
+        //let date = data.getDate() + "-" + data.getMonth() + "-" + data.getFullYear();
+        let service = `/mes/${data}`;
+        return this.http.get<Designacao[]>(this.designacao_url + service);
+    }
     getByRangeDate(startDate: String | null, endDate: String | null): Observable<Designacao[]> {
         //let date = data.getDate() + "-" + data.getMonth() + "-" + data.getFullYear();
         let service = `/inicio/${startDate}/fim/${endDate}`;
@@ -36,6 +41,11 @@ export class DesignacaoService {
 
     saveAll(designacaoListToSave: Designacao[]): Observable<Designacao[]> {
         let service = '/save-all'
+        return this.http.post<Designacao[]>(this.designacao_url + service, designacaoListToSave);
+    }
+
+    deleteAll(designacaoListToSave: Designacao[]): Observable<Designacao[]> {
+        let service = '/delete-all'
         return this.http.post<Designacao[]>(this.designacao_url + service, designacaoListToSave);
     }
 }

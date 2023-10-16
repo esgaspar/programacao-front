@@ -7,8 +7,8 @@ import { Voluntario } from '../model/voluntario';
     providedIn: 'root'
 })
 export class VoluntarioService {
-    //host = "http://localhost:8080/api/";
-    host = "https://esgaspar.cloudns.ph/api/";
+    host = "http://localhost:8080/api/";
+    // host = "https://esgaspar.cloudns.ph/api/";
     voluntario_url = this.host + "voluntario"
     constructor(private http: HttpClient) { }
 
@@ -23,6 +23,18 @@ export class VoluntarioService {
     }
     save(voluntario: Voluntario): Observable<Voluntario> {
         return this.http.post<Voluntario>(this.voluntario_url, voluntario);
+    }
+    remove(voluntario: Voluntario): Observable<any> {
+        return this.http.delete<any>(this.voluntario_url + `/${voluntario.id}`);
+    }
+
+    getListByNome(nome: string): Observable<Voluntario[]> {
+        let busca = nome;
+        if (busca === '') {
+            busca = '-';
+        }
+        let service = `/list/nome/${busca}`
+        return this.http.get<Voluntario[]>(this.voluntario_url + service);
     }
 
 }

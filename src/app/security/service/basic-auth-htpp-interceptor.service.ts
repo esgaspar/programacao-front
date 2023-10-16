@@ -17,7 +17,7 @@ export class BasicAuthHtppInterceptorService implements HttpInterceptor {
             return next.handle(req);
         }
 
-        if (sessionStorage.getItem('username') && sessionStorage.getItem('token')) {
+        if (sessionStorage.getItem('user') && sessionStorage.getItem('token')) {
             const clonedRequest = req.clone({ headers: req.headers.append('Authorization', sessionStorage.getItem('token')!) });
             return next.handle(clonedRequest);
         }

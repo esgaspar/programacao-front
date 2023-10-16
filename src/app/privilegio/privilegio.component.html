@@ -1,4 +1,8 @@
-<mat-expansion-panel hideToggle *ngFor="let item of list">
+<a mat-flat-button (click)="novo()">
+    <mat-icon class="background-gradient">person_add</mat-icon>
+</a>
+
+<!-- <mat-expansion-panel hideToggle *ngFor="let item of list">
     <mat-expansion-panel-header>
         <mat-panel-title>
             {{item.descricao}}
@@ -9,4 +13,35 @@
             <span>{{subItem.nome}}</span>
         </mat-list-item>
     </mat-list>
-</mat-expansion-panel>
+</mat-expansion-panel> -->
+
+
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of list" cdkDrag>
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title (keydown.Space)="$event.stopPropagation()">
+                    <button [disabled]="!item.descricao || !item.codigo" matSuffix mat-icon-button aria-label="Save"
+                        (click)="salvar(item);$event.stopPropagation()">
+                        <mat-icon>published_with_changes</mat-icon>
+                    </button>
+                    <mat-form-field class="form-field" appearance="outline" (click)="$event.stopPropagation()">
+                        <input matInput type="text" [(ngModel)]="item.descricao" aria-label="Nome" placeholder="Nome"
+                            required>
+                    </mat-form-field>
+                </mat-panel-title>
+                <a mat-flat-button (click)="remove(item);$event.stopPropagation()">
+                    <mat-icon class="background-gradient">person_remove</mat-icon>
+                </a>
+            </mat-expansion-panel-header>
+            <mat-list>
+                <mat-list-item *ngFor="let subItem of item.voluntarioList">
+                    <span>{{subItem.nome}}</span>
+                </mat-list-item>
+            </mat-list>
+        </mat-expansion-panel>
+
+    </div>
+</div>

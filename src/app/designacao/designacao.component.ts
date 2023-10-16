@@ -5,10 +5,11 @@ import { Reuniao } from './model/reuniao';
 import { DesignacaoService } from './service/designacao.service';
 import { PrivilegioService } from '../privilegio/service/privilegio.service';
 import { Privilegio } from '../privilegio/model/privilegio';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackComponent } from '../snack/snack.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+
 
 
 
@@ -144,15 +145,34 @@ export class DesignacaoComponent implements OnInit {
     });
   }
 
-  openSnackBar() {
-    this._snackBar.openFromComponent(SnackComponent, {
-      duration: this.durationInSeconds * 1000,
-    });
-  }
-
-
   pageBreak(bloco: number) {
     let blocoAjust = bloco + 1;
     return blocoAjust.toString().endsWith("0") || blocoAjust.toString().endsWith("5");
   }
+
+  remove(value: Reuniao) {
+
+    this.service.deleteAll(value.designacaoList).subscribe({
+      next: (v) => {
+        this.openSnackBar("Removido com sucesso", "ok", "sucess");
+        console.log("sucesso", v)
+        this.reuniaoList = this.reuniaoList.filter(h => h.data != value.data);
+      },
+      error: (e) => {
+        this.openSnackBar("Erro ao remover", "ok", "error");
+        console.log("erro", e)
+      },
+      complete: () => { console.log("save all complete!") }
+
+    });
+
+  }
+
+  openSnackBar(message: string, action: string, type: String) {
+    let config = new MatSnackBarConfig();
+    config.duration = 1000;
+    config.data = { type: type, message: message, action: action };
+    this._snackBar.openFromComponent(SnackComponent, config)
+  }
+
 }

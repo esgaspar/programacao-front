@@ -4,4 +4,6 @@ export class Voluntario {
     id!: number;
     nome!: String;
     privilegioList: Privilegio[] = [];
+    alerta: any;
+    isLoading: boolean = false;
 }

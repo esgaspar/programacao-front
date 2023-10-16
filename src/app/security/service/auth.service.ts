@@ -18,14 +18,15 @@ export class AuthService {
     // Provide username and password for authentication, and once authentication is successful, 
     //store JWT token in session
     authenticate(username: string, password: string) {
-        // let host = "http://localhost:8080/api/";
-        let host = "https://esgaspar.cloudns.ph/api/";
+        let host = "http://localhost:8080/api/";
+        //let host = "https://esgaspar.cloudns.ph/api/";
         return this.httpClient
             .post<any>(host + "login", { username, password })
             .pipe(
                 map(userData => {
-                    sessionStorage.setItem("username", username);
-                    let tokenStr = "Bearer " + userData.token;
+                    console.log("userData", userData)
+                    sessionStorage.setItem("user", JSON.stringify(userData.user));
+                    let tokenStr = "Bearer " + userData.token.token;
                     sessionStorage.setItem("token", tokenStr);
                     this._isUserLoggedIn.next(true);
                     return userData;
@@ -38,13 +39,13 @@ export class AuthService {
     }
 
     isUserLoggedIn() {
-        let user = sessionStorage.getItem("username");
+        let user = sessionStorage.getItem("user");
         return !(user === null);
     }
 
     logOut() {
         this._isUserLoggedIn.next(false);
-        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("user");
         this.router.navigate(["/login"]);
     }
 

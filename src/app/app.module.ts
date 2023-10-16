@@ -49,16 +49,19 @@ import { DatePipe } from '@angular/common';
 import { JsonPipe, NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+
+import {
+  CdkDrag,
+  CdkDragPlaceholder,
+  CdkDropList
+} from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { NgForm } from '@angular/forms';
-import { BasicAuthHtppInterceptorService } from './security/service/basic-auth-htpp-interceptor.service';
 import { LoginComponent } from './login/login.component';
-
-
+import { BasicAuthHtppInterceptorService } from './security/service/basic-auth-htpp-interceptor.service';
+import { UserComponent } from './user/user.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 registerLocaleData(ptBr)
@@ -73,7 +76,8 @@ registerLocaleData(ptBr)
     DesignacaoComponent,
     DesignacaoCreateComponent,
     SnackComponent,
-    LoginComponent
+    LoginComponent,
+    UserComponent
   ],
   imports: [
     HttpClientModule,
@@ -89,7 +93,11 @@ registerLocaleData(ptBr)
     ReactiveFormsModule,
     NgIf,
     JsonPipe,
-    NgxPrintModule, MatAutocompleteModule
+    NgxPrintModule, MatAutocompleteModule, CdkDrag,
+    CdkDragPlaceholder,
+    CdkDropList,
+    MatTooltipModule,
+    MatProgressBarModule
 
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }, DatePipe, {

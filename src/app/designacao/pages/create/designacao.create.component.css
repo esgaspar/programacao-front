@@ -4,10 +4,32 @@
   max-width: 600px;
 }
 
-.form-field{
+.form-field {
   margin: 5px;
 }
 
+.designacao {
+  display: inline-table;
+}
+
+input:read-only {
+  cursor: pointer;
+}
+
+
+.reuniaoHist {
+  cursor: pointer;
+
+  .mdc-floating-label--float-above {
+    cursor: pointer;
+  }
+
+  label,
+  input,
+  mat-label {
+    cursor: pointer
+  }
+}
 
 /* For mobile phones: */
 [class*="col-"] {
@@ -116,4 +138,12 @@
   .col-12 {
     width: 100%;
   }
+}
+
+.erro {
+  color: brown !important;
+}
+
+.tooltip {
+  white-space: pre-line;
 }
