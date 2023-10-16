@@ -1,0 +1,47 @@
+@import url(/src/app/default.css);
+
+.remover {
+    float: right;
+}
+
+mat-select {
+    border-width: thin;
+    width: 80%;
+    outline: none;
+    float: right;
+    padding-right: 1rem;
+
+    border: 1px solid #4a6da7;
+    --border-radio: 5px;
+    -webkit-border-top-right-radius: var(--border-radio);
+    -webkit-border-bottom-right-radius: var(--border-radio);
+    -moz-border-radius-topright: var(--border-radio);
+    -moz-border-radius-bottomright: var(--border-radio);
+    border-top-right-radius: var(--border-radio);
+    border-bottom-right-radius: var(--border-radio);
+
+    -webkit-border-top-left-radius: var(--border-radio);
+    -webkit-border-bottom-left-radius: var(--border-radio);
+    -moz-border-radius-topleft: var(--border-radio);
+    -moz-border-radius-bottomleft: var(--border-radio);
+    border-top-left-radius: var(--border-radio);
+    border-bottom-left-radius: var(--border-radio);
+}
+
+mat-expansion-panel-header {
+    height: fit-content;
+    align-items: center;
+    padding: 0, 5rem;
+}
+
+mat-form-field {
+    flex-direction: inherit;
+    margin-top: 0, 5rem;
+    margin-bottom: 0, 5rem;
+}
+
+mat-list {
+    list-style-type: none;
+    margin-top: 4px;
+    padding-left: 5rem;
+}

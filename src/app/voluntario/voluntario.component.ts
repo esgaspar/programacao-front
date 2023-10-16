@@ -5,6 +5,7 @@ import { PrivilegioService } from '../privilegio/service/privilegio.service';
 import { SnackComponent } from '../snack/snack.component';
 import { Voluntario } from './model/voluntario';
 import { VoluntarioService } from './service/voluntario.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-voluntario',
@@ -17,6 +18,9 @@ export class VoluntarioComponent implements OnInit {
   privilegioService: PrivilegioService;
   list: Voluntario[] = [];
   privilegioList: Privilegio[] = [];
+  busca: string = '';
+  privilegio = new FormControl('');
+
 
 
   constructor(service: VoluntarioService, privilegioService: PrivilegioService, private _snackBar: MatSnackBar) {
@@ -36,30 +40,29 @@ export class VoluntarioComponent implements OnInit {
   }
 
   getList() {
-    this.service.getList()
+    this.service.getListByNome(this.busca)
       .subscribe((list: Voluntario[]) => {
         this.list = list;
-
 
         this.privilegioService.getList().subscribe((privilegioList: Privilegio[]) => {
           this.privilegioList = privilegioList;
 
 
-          this.list.forEach(voluntario => {
-            this.privilegioList.forEach(privilegio => {
-              let privilegioListVoluntario = voluntario.privilegioList;
-              let privilegioEncontrado = privilegioListVoluntario.find(p => p.id == privilegio.id);
-              if (privilegioEncontrado) {
-                privilegioEncontrado.checked = true;
-              } else {
-                privilegio.checked = false;
-                privilegioListVoluntario.push(privilegio);
-              }
+          // this.list.forEach(voluntario => {
+          //   this.privilegioList.forEach(privilegio => {
+          //     let privilegioListVoluntario = voluntario.privilegioList;
+          //     let privilegioEncontrado = privilegioListVoluntario.find(p => p.id == privilegio.id);
+          //     if (privilegioEncontrado) {
+          //       privilegioEncontrado.checked = true;
+          //     } else {
+          //       privilegio.checked = false;
+          //       privilegioListVoluntario.push(JSON.parse(JSON.stringify(privilegio)));
+          //     }
 
-            });
+          //   });
 
-            voluntario.privilegioList.sort((a, b) => a.ordem - b.ordem);
-          });
+          //   voluntario.privilegioList.sort((a, b) => a.ordem - b.ordem);
+          // });
 
         })
 
@@ -68,15 +71,8 @@ export class VoluntarioComponent implements OnInit {
 
   }
 
-  adicionaPrivilegio(v: Voluntario) {
-    let privilegio = new Privilegio();
-    if (v.privilegioList.filter(p => p.id == null).length > 0) {
-      return
-    }
-    v.privilegioList.push(privilegio)
-  }
-
   salvar(voluntario: Voluntario, sendMsg: boolean = true) {
+    voluntario.isLoading = true;
     this.service.save(voluntario).subscribe({
       next: (v) => {
         if (sendMsg) {
@@ -84,10 +80,13 @@ export class VoluntarioComponent implements OnInit {
         }
         console.log(v);
         voluntario.id = v.id;
-        voluntario.privilegioList.forEach(value => value.status = "");
       },
       error: (e) => { console.error(e); this.openSnackBar("Erro ao salvar", "ok", "error"); },
-      complete: () => { }
+      complete: () => {
+        setTimeout(() => {
+          voluntario.isLoading = false
+        }, 500);
+      }
     })
   }
 
@@ -107,12 +106,31 @@ export class VoluntarioComponent implements OnInit {
     }
   }
 
-  removePrivilegio(voluntario: Voluntario, privilegio: any) {
-    voluntario.privilegioList = JSON.parse(JSON.stringify(voluntario.privilegioList.filter(p => p.id !== privilegio.id)));
-    this.salvar(voluntario);
-  }
+  // removePrivilegio(voluntario: Voluntario, privilegio: any) {
+  //   voluntario.privilegioList = JSON.parse(JSON.stringify(voluntario.privilegioList.filter(p => p.id !== privilegio.id)));
+  //   this.salvar(voluntario);
+  // }
 
   novoVoluntario() {
     this.list.push(new Voluntario());
+  }
+
+  removeVoluntario(voluntario: Voluntario) {
+    this.service.remove(voluntario).subscribe({
+      next: v => {
+        this.openSnackBar("Removido com sucesso", "ok", "sucess");
+        this.list = this.list.filter(v => v.id != voluntario.id);
+      },
+      error: e => {
+        this.openSnackBar("Erro ao remover", "ok", "error");
+      },
+      complete: () => {
+
+      }
+    })
+  }
+
+  compareFn(p1: Privilegio, p2: Privilegio) {
+    return p1 && p2 ? p1.id === p2.id : p1 === p2;
   }
 }

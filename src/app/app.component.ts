@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from './security/service/auth.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Observable } from "rxjs";
@@ -9,20 +9,22 @@ import { Observable } from "rxjs";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'programacao-front';
   isLoged = false;
-  isLoged$: Observable<boolean | null>;
 
 
   constructor(private authService: AuthService) {
-    this.isLoged$ = this.authService.getisUserLoggedIn();
-  }
-  ngOnInit(): void {
+
   }
 
   logout() {
     this.authService.logOut();
+  }
+
+  get isUserLoggedIn() {
+    let user = sessionStorage.getItem("user");
+    return !(user === null);
   }
 
 }

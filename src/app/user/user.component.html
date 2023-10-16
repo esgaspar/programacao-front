@@ -1,0 +1,100 @@
+<a mat-flat-button (click)="remove(myUser);$event.stopPropagation()" class="remove-my-user">
+    <mat-icon class="background-gradient">person_remove</mat-icon>
+    Remover meu usuario
+</a>
+<form mat-form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <input placeholder="nome" aria-describedby="nome" matInput type="text" id="name" class="form-control"
+            formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field>
+        <input placeholder="usuario" matInput type="text" id="username" class="form-control" formControlName="username"
+            required>
+    </mat-form-field>
+    <div *ngIf="username && username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+        <div *ngIf="username.errors?.['required']">
+            Obrigatório
+        </div>
+        <div *ngIf="username.errors?.['minlength']">
+            Deve conter mais de 4 letras.
+        </div>
+    </div>
+
+    <mat-form-field>
+        <input placeholder="email" matInput type="text" id="email" class="form-control" formControlName="email"
+            required>
+    </mat-form-field>
+    <div *ngIf="email && email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+
+        <div *ngIf="email.errors?.['required']">
+            Obrigatório
+        </div>
+        <div *ngIf="email.errors?.['minlength']">
+            Deve conter mais de 4 letras.
+        </div>
+        <div *ngIf="email.errors?.['email']">
+            E-mail invalido
+        </div>
+    </div>
+
+    <mat-form-field>
+        <input placeholder="senha" matInput type="password" id="password" class="form-control"
+            formControlName="password" required>
+    </mat-form-field>
+    <div *ngIf="password && password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+
+        <div *ngIf="password.errors?.['required']">
+            Obrigatório
+        </div>
+        <div *ngIf="password.errors?.['minlength']">
+            Deve conter mais de 8 caracteres.
+        </div>
+        <div *ngIf="password.errors?.['pattern']">
+            Deve conter letras, numeros, caracteres especiais, os digitos não podem se repetir de forma consecutiva.
+        </div>
+    </div>
+    <div class="action">
+        <button mat-raised-button class="button" type="submit" [disabled]="form.invalid">Enviar</button>
+        <button *ngIf="isAdm" mat-raised-button class="button"
+            (click)="form.reset();userSelected.id = null;$event.preventDefault()">Novo</button>
+        <button mat-raised-button class="button" (click)="form.reset();$event.preventDefault()">Limpar</button>
+
+
+
+    </div>
+</form>
+
+<mat-accordion *ngIf="isAdm">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Gerenciar usuários
+            </mat-panel-title>
+            <mat-panel-description>
+                lista de usuários
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div>
+            <span>
+                <p (click)="onSelectUser(myUser)" class="clickable">
+                    <a mat-flat-button [disabled]="true">
+                        <mat-icon class="background-gradient">person_remove</mat-icon>
+                    </a> {{myUser.name}}
+                </p>
+            </span>
+        </div>
+
+        <span *ngFor="let item of list">
+            <div *ngIf="item.id != myUser.id">
+                <span>
+                    <p (click)="onSelectUser(item)" class="clickable">
+                        <a mat-flat-button (click)="remove(item);$event.stopPropagation()">
+                            <mat-icon class="background-gradient">person_remove</mat-icon>
+                        </a> {{item.name}}
+                    </p>
+                </span>
+            </div>
+        </span>
+    </mat-expansion-panel>
+</mat-accordion>

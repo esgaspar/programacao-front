@@ -8,8 +8,8 @@ import { Privilegio } from '../model/privilegio';
     providedIn: 'root'
 })
 export class PrivilegioService {
-    // host = "http://localhost:8080/api/";
-    host = "https://esgaspar.cloudns.ph/api/";
+    host = "http://localhost:8080/api/";
+    // host = "https://esgaspar.cloudns.ph/api/";
     privilegio_url = this.host + "privilegio"
     constructor(private http: HttpClient) { }
 
@@ -21,6 +21,18 @@ export class PrivilegioService {
     getList(): Observable<Privilegio[]> {
         let service = `/list`
         return this.http.get<Privilegio[]>(this.privilegio_url + service);
+    }
+
+    save(privilegio: Privilegio): Observable<Privilegio> {
+        return this.http.post<Privilegio>(this.privilegio_url, privilegio);
+    }
+    saveAll(privilegioList: Privilegio[]): Observable<Privilegio> {
+        let service = `/save-all`
+        return this.http.post<Privilegio>(this.privilegio_url + service, privilegioList);
+    }
+
+    remove(privilegio: Privilegio): Observable<any> {
+        return this.http.delete<any>(this.privilegio_url + `/${privilegio.id}`);
     }
 
 }

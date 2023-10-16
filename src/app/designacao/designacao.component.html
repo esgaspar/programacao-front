@@ -15,7 +15,6 @@
             <input matStartDate formControlName="start" placeholder="Inicio">
             <input matEndDate formControlName="end" placeholder="Fim">
         </mat-date-range-input>
-        <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker>
             <mat-date-range-picker-actions>
@@ -37,54 +36,74 @@
                 </mat-checkbox>
                 {{stringToDate(item.data) | date : 'dd/MM/yyyy - EEEE'}}
             </mat-panel-title>
-            <!-- <mat-panel-description>
-
-            </mat-panel-description> -->
         </mat-expansion-panel-header>
-        <mat-list>
+        <div class="row">
+            <mat-card-header>
+                <mat-card-actions>
+                    <a mat-flat-button (click)="remove(item)" matTooltip="Remover reunião">
+                        <mat-icon class="background-gradient">remove</mat-icon>
+                    </a>
+                </mat-card-actions>
+            </mat-card-header>
+            <mat-card *ngFor="let subItem of item.designacaoList"
+                class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-1 m-1">
+                <mat-card-content>
+                    <mat-label class="fs-5 d-inline-block text-truncate">{{subItem.privilegio.descricao}}</mat-label>
+                    <mat-divider></mat-divider>
+                    <mat-label class="fs-6">{{subItem.voluntario.nome}}</mat-label>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+        <!-- <mat-list>
             <mat-list-item *ngFor="let subItem of item.designacaoList">
-                <span>{{subItem.privilegio.descricao}} - {{subItem.voluntario.nome}}</span>
+                <div class="row">
+                    <div class="col-1">
+                        {{subItem.privilegio.descricao}}
+                    </div>
+                    <div class="col-1">
+                        {{subItem.voluntario.nome}}
+                    </div>
+                </div>
+
             </mat-list-item>
-        </mat-list>
+        </mat-list> -->
     </mat-expansion-panel>
 </div>
 
-<!-- <div id="print-section" style="display: none;"> -->
+<div id="print-section" class="m-0 p-0" style="display: none;">
 
-<div id="print-section">
-
-    <!-- <div class="page"> -->
-    <div class="titulo">
+    <div class="titulo mt-0">
         <h2>Indicadores e Volantes</h2>
     </div>
 
     <div *ngFor="let item of ds, index as i" class="bloco">
-        <div>
-            <span>
-                <h2>{{stringToDate(item['data']) | date : 'dd'}} de {{stringToDate(item['data']) | date : 'MMMM -
-                    E'}}</h2>
+        <div class="d-flex">
+            <span class="d-flex">
+                <h3>
+                    <strong>
+                        {{stringToDate(item['data']) | date : 'dd'}} de
+                        {{stringToDate(item['data']) | date : 'MMMM - E'}}
+                    </strong>
+                </h3>
             </span>
         </div>
 
-        <div class=" header-print" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
-            <!-- <div fxFlex="15" class="sec1" fxFlex.xs="55">
-                <span>Data</span>
-            </div> -->
+        <div class="header-print" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
             <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
-                <span>{{privilegio.descricao}}</span>
+                <span class="text">{{privilegio.descricao}}</span>
             </div>
         </div>
         <mat-divider class="divider"></mat-divider>
-        <div class="content line" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
+        <div class="content line" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly end">
             <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
                 <span>{{item[privilegio.codigo]}}</span>
             </div>
             <div>
             </div>
         </div>
-        <div class="header-break titulo" *ngIf="i == 6 || i == 13">
+        <div class="header-break titulo" *ngIf="i == 9 || i == 16">
             <h2>Indicadores e Volantes</h2>
         </div>
     </div>
 </div>
-<!-- </div> -->

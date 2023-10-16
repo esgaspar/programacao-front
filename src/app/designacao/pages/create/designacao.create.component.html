@@ -1,22 +1,52 @@
-<a mat-flat-button (click)="saveAll()" [disabled]="!selectedDate">
-    <mat-icon class="background-gradient">person_add</mat-icon>
-</a>
-
 <mat-card class="inline-calendar-card col-3 col-s-11">
     <mat-calendar [(selected)]="selectedDate" (selectedChange)="buscaReuniao()"></mat-calendar>
 </mat-card>
 
-<div *ngIf="listPrivilegio.length > 0">
-    <mat-form-field class="example-full-width" *ngFor="let item of listPrivilegio">
-        <mat-label>{{item.descricao}}</mat-label>
+<div *ngIf="listPrivilegio.length > 0" class="">
+    <!-- <div *ngFor="let item of listPrivilegio"> -->
+
+    <mat-form-field class="example-full-width" [ngClass]="ds[item.codigo]?.alerta?.tipo"
+        [matTooltip]="ds[item.codigo]?.alerta?.mensagem" *ngFor="let item of listPrivilegio">
+
+        <mat-label [ngClass]="ds[item.codigo]?.alerta?.tipo">{{item.descricao}}</mat-label>
+
         <input type="text" placeholder="{{item.descricao}}" matInput id="busca_{{item.codigo}}"
             [value]="search[item.codigo]" [disabled]="!selectedDate" [matAutocomplete]="auto"
-            (keyup)="busca($event, item)" (focus)="busca($event, item)">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let voluntario of this.filteredOptions[item.codigo]" [value]="voluntario"
-                (onSelectionChange)="changeSelect(item, voluntario)">
+            (keyup)="busca($event, item)" (focus)="busca($event, item)" [ngClass]="ds[item.codigo]?.alerta?.tipo">
+
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+            (optionSelected)="changeSelect(item, $event)">
+            <mat-option *ngFor="let voluntario of this.filteredOptions[item.codigo]" [value]="voluntario">
                 {{voluntario.nome}}
             </mat-option>
         </mat-autocomplete>
+
+        <span *ngFor="let err of ds[item.codigo]?.alerta?.mensagem">
+            <mat-divider *ngIf="err"></mat-divider>
+            <mat-error *ngIf="err">{{err}}</mat-error>
+            <mat-divider *ngIf="err"></mat-divider>
+        </span>
     </mat-form-field>
+    <!-- </div> -->
+
+    <a mat-flat-button (click)="saveAll()" [disabled]="!selectedDate">
+        <mat-icon class="background-gradient">person_add</mat-icon>
+    </a>
+</div>
+
+<div *ngFor="let hist of historicoMes" (click)="selectedDate = stringToDate(hist.data);buscaReuniao()"
+    class="reuniaoHist">
+    <div>
+        <mat-label> {{stringToDate(hist.data) | date : 'dd/MM/yyyy - EEEE'}} </mat-label>
+    </div>
+
+    <mat-form-field class="example-full-width" *ngFor="let subItem of hist.designacaoList ">
+        <mat-label>{{subItem.privilegio.descricao}}</mat-label>
+        <input type="text" placeholder="{{subItem.privilegio.descricao}}" matInput [value]="subItem.voluntario.nome"
+            [readonly]="true">
+    </mat-form-field>
+
+    <a mat-flat-button (click)="remove(hist)">
+        <mat-icon class="background-gradient">remove</mat-icon>
+    </a>
 </div>
