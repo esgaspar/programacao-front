@@ -23,7 +23,7 @@
         <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title (keydown.Space)="$event.stopPropagation()">
-                    <button [disabled]="!item.descricao || !item.codigo" matSuffix mat-icon-button aria-label="Save"
+                    <button [disabled]="!item.descricao" matSuffix mat-icon-button aria-label="Save"
                         (click)="salvar(item);$event.stopPropagation()">
                         <mat-icon>published_with_changes</mat-icon>
                     </button>
