@@ -28,7 +28,6 @@
               "src/favicon.ico",
               "src/assets"
             ],
-
             "styles": [
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -53,7 +52,16 @@
                   "maximumError": "4000kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "styles": [
+                "@angular/material/prebuilt-themes/deeppurple-amber.css",
+                "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                "src/styles.css"
+              ],
+              "scripts": [
+                "node_modules/@popperjs/core/dist/umd/popper.min.js",
+                "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              ]
             },
             "development": {
               "buildOptimizer": false,
