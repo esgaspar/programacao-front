@@ -4,8 +4,15 @@
 
   .settings {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1rem;
+    right: 1rem;
     align-items: center;
     vertical-align: middle;
+    cursor: pointer;
+    color: #fff;
+
+    :hover {
+      color: #9b9595;
+
+    }
   }

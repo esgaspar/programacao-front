@@ -1,6 +1,5 @@
-<a mat-flat-button (click)="remove(myUser);$event.stopPropagation()" class="remove-my-user">
-    <mat-icon class="background-gradient">person_remove</mat-icon>
-    Remover meu usuario
+<a mat-flat-button (click)="remove(myUser);$event.stopPropagation()" class="remove-my-user" matTooltip="Remover meu usuario">
+    <fa-icon class="fs-3" [icon]="['fas', 'user-xmark']"></fa-icon>
 </a>
 <form mat-form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
     <mat-form-field>
@@ -79,7 +78,7 @@
             <span>
                 <p (click)="onSelectUser(myUser)" class="clickable">
                     <a mat-flat-button [disabled]="true">
-                        <mat-icon class="background-gradient">person_remove</mat-icon>
+                        <fa-icon class="fs-3" [icon]="['fas', 'user-minus']"></fa-icon>
                     </a> {{myUser.name}}
                 </p>
             </span>
@@ -88,11 +87,9 @@
         <span *ngFor="let item of list">
             <div *ngIf="item.id != myUser.id">
                 <span>
-                    <p (click)="onSelectUser(item)" class="clickable">
-                        <a mat-flat-button (click)="remove(item);$event.stopPropagation()">
-                            <mat-icon class="background-gradient">person_remove</mat-icon>
+                        <a mat-flat-button (click)="remove(item);$event.stopPropagation()" (click)="onSelectUser(item)" class="clickable">
+                            <fa-icon class="fs-3" [icon]="['fas', 'user-minus']"></fa-icon>
                         </a> {{item.name}}
-                    </p>
                 </span>
             </div>
         </span>

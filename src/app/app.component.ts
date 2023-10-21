@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './security/service/auth.service';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { Observable } from "rxjs";
+
 
 
 @Component({
@@ -12,6 +12,7 @@ import { Observable } from "rxjs";
 export class AppComponent {
   title = 'programacao-front';
   isLoged = false;
+  faCoffee = faCoffee
 
 
   constructor(private authService: AuthService) {

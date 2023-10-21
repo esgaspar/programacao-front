@@ -1,21 +1,16 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row [routerLink]="['designacao']" (click)="onSelect.emit('designacao')">
-        <mat-icon>perm_contact_calendar</mat-icon>
-        <span>Designacao</span>
-
+        <fa-icon class="fs-4 me-2" [icon]="['far', 'calendar']"></fa-icon> <span>Designacao</span>
     </mat-toolbar-row>
 
     <mat-toolbar-row [routerLink]="['voluntario']" (click)="onSelect.emit('voluntario')">
-        <mat-icon>person_outline</mat-icon>
-        <span>Voluntario</span>
+        <fa-icon class="fs-4 me-2" [icon]="['fas', 'person']"></fa-icon> <span>Voluntario</span>
     </mat-toolbar-row>
     <mat-toolbar-row [routerLink]="['privilegio']" (click)="onSelect.emit('privilegio')">
-        <mat-icon>card_giftcard</mat-icon>
-        Privilégio
+        <fa-icon class="fs-4 me-2" [icon]="['fas', 'gift']"></fa-icon> Privilégio
     </mat-toolbar-row>
 </mat-toolbar>
 <div class="settings">
-    <a mat-flat-button [routerLink]="['config/user']" (click)="onSelect.emit('config/user')">
-        <mat-icon class="background-gradient">settings</mat-icon>
-    </a>
+    <fa-icon class="fs-4 p-2" [icon]="['fas', 'gear']" [routerLink]="['config/user']"
+        (click)="onSelect.emit('config/user')"></fa-icon>
 </div>
