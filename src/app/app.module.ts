@@ -51,6 +51,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import {
+  FontAwesomeModule,
+  FaIconLibrary,
+} from '@fortawesome/angular-fontawesome';
+
 
 import {
   CdkDrag,
@@ -58,10 +63,13 @@ import {
   CdkDropList
 } from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoginComponent } from './login/login.component';
 import { BasicAuthHtppInterceptorService } from './security/service/basic-auth-htpp-interceptor.service';
 import { UserComponent } from './user/user.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 
 registerLocaleData(ptBr)
@@ -97,7 +105,8 @@ registerLocaleData(ptBr)
     CdkDragPlaceholder,
     CdkDropList,
     MatTooltipModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    FontAwesomeModule
 
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }, DatePipe, {
@@ -105,4 +114,11 @@ registerLocaleData(ptBr)
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(
+      fas, far, fab
+    );
+  }
+}

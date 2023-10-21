@@ -1,12 +1,12 @@
 <mat-toolbar>
     <a mat-flat-button (click)="novoVoluntario()">
-        <mat-icon class="background-gradient">person_add</mat-icon>
+        <fa-icon class="fs-3" [icon]="['fas', 'user-plus']"></fa-icon>
     </a>
 
     <mat-form-field appearance="outline" (click)="$event.stopPropagation()">
         <input matInput type="text" [(ngModel)]="busca" (keyup.enter)="getList()" placeholder="Buscar">
         <button matSuffix mat-icon-button aria-label="search" (click)="getList()">
-            <mat-icon>search</mat-icon>
+            <fa-icon [icon]="['fas', 'search']"></fa-icon>
         </button>
     </mat-form-field>
 </mat-toolbar>
@@ -39,8 +39,9 @@
             <mat-divider></mat-divider>
         </mat-card-content>
         <mat-card-footer>
-            <button mat-button (click)="removeVoluntario(item);$event.stopPropagation()"><mat-icon
-                    class="-background-gradient">person_remove</mat-icon></button>
+            <button mat-button (click)="removeVoluntario(item);$event.stopPropagation()">
+                    <fa-icon class="fs-4" [icon]="['fas', 'user-minus']"></fa-icon>
+                </button>
         </mat-card-footer>
     </mat-card>
 </div>

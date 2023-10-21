@@ -7,10 +7,10 @@
 
         <div class="dashboard">
             <button mat-flat-button (click)="drawer.toggle()" *ngIf="isUserLoggedIn">
-                <mat-icon class="icon-display background-gradient">dashboard</mat-icon>
+                <fa-icon class="fs-2" [icon]="['fas', 'bars']"></fa-icon>
             </button>
             <button class="logout" mat-flat-button (click)="logout()" *ngIf="isUserLoggedIn">
-                <mat-icon class="icon-display background-gradient">logout</mat-icon>
+                <fa-icon  class="fs-2" [icon]="['fas', 'right-from-bracket']"></fa-icon>
             </button>
             <mat-divider class="menu"></mat-divider>
         </div>

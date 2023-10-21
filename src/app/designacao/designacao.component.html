@@ -1,11 +1,11 @@
 <div class="action">
     <a mat-flat-button [routerLink]="'/designacao/novo'" class="btnSave">
-        <mat-icon>groups</mat-icon>
+        <fa-icon class="fs-4 me-2" [icon]="['fas', 'people-roof']"></fa-icon>
         <span>Nova reunião</span>
     </a>
 
     <button printTitle="Programacão" [useExistingCss]="true" mat-flat-button printSectionId="print-section"
-        [disabled]="!startDate || !endDate" ngxPrint>Imprimir</button>
+        [disabled]="!startDate || !endDate" ngxPrint><fa-icon class="fs-4 me-2" [icon]="['fas', 'print']"></fa-icon></button>
 </div>
 
 <div class="content">
@@ -41,7 +41,7 @@
             <mat-card-header>
                 <mat-card-actions>
                     <a mat-flat-button (click)="remove(item)" matTooltip="Remover reunião">
-                        <mat-icon class="background-gradient">remove</mat-icon>
+                        <fa-icon class="fs-4 me-2" [icon]="['fas', 'minus']"></fa-icon>
                     </a>
                 </mat-card-actions>
             </mat-card-header>
@@ -55,19 +55,6 @@
             </mat-card>
 
         </div>
-        <!-- <mat-list>
-            <mat-list-item *ngFor="let subItem of item.designacaoList">
-                <div class="row">
-                    <div class="col-1">
-                        {{subItem.privilegio.descricao}}
-                    </div>
-                    <div class="col-1">
-                        {{subItem.voluntario.nome}}
-                    </div>
-                </div>
-
-            </mat-list-item>
-        </mat-list> -->
     </mat-expansion-panel>
 </div>
 

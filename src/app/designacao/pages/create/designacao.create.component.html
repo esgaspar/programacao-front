@@ -3,7 +3,6 @@
 </mat-card>
 
 <div *ngIf="listPrivilegio.length > 0" class="">
-    <!-- <div *ngFor="let item of listPrivilegio"> -->
 
     <mat-form-field class="example-full-width" [ngClass]="ds[item.codigo]?.alerta?.tipo"
         [matTooltip]="ds[item.codigo]?.alerta?.mensagem" *ngFor="let item of listPrivilegio">
@@ -30,7 +29,7 @@
     <!-- </div> -->
 
     <a mat-flat-button (click)="saveAll()" [disabled]="!selectedDate">
-        <mat-icon class="background-gradient">person_add</mat-icon>
+        <fa-icon class="fs-4 me-2" [icon]="['fas', 'cloud-arrow-up']"></fa-icon>
     </a>
 </div>
 
@@ -47,6 +46,6 @@
     </mat-form-field>
 
     <a mat-flat-button (click)="remove(hist)">
-        <mat-icon class="background-gradient">remove</mat-icon>
+        <fa-icon class="fs-4 me-2" [icon]="['fas', 'minus']"></fa-icon>
     </a>
 </div>
