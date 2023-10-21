@@ -203,7 +203,7 @@ export class DesignacaoCreateComponent implements OnInit {
     let v = JSON.parse(JSON.stringify(voluntario?.option?.value))
     let alerta = { tipo: '', mensagem: [''] };
 
-    this.listPrivilegio.forEach(p => {
+    this.listPrivilegio?.forEach(p => {
       if (this.ds[p.codigo].id === v.id && p.codigo !== privilegio.codigo) {
         if (alerta.mensagem[0] === '')
           alerta.mensagem.pop()
@@ -218,7 +218,7 @@ export class DesignacaoCreateComponent implements OnInit {
 
     let conflitoDesignacao = [];
     let listDataConflito: any = "";
-    this.historicoMes.forEach(mes => {
+    this.historicoMes?.forEach(mes => {
       conflitoDesignacao = mes.designacaoList.filter(designacao => {
         return designacao.privilegio.id === privilegio.id && v.id === designacao.voluntario.id
       })
