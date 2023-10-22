@@ -4,9 +4,9 @@
         <span>Nova reunião</span>
     </a>
 
-    <button printTitle="Programacão" [useExistingCss]="true" mat-flat-button printSectionId="print-section"
-        [disabled]="!startDate || !endDate" ngxPrint><fa-icon class="fs-4 me-2" [icon]="['fas', 'print']"></fa-icon></button>
-</div>
+        <button matTooltip="imprimir" (click)="imprimir()"><fa-icon class="fs-4 me-2" [icon]="['fas', 'print']"></fa-icon></button>
+    </div>
+
 
 <div class="content">
 
@@ -58,7 +58,7 @@
     </mat-expansion-panel>
 </div>
 
-<div id="print-section" class="m-0 p-0" style="display: none;">
+<div id="print-section" class="m-0 p-0">
 
     <div class="titulo mt-0">
         <h2>Indicadores e Volantes</h2>
