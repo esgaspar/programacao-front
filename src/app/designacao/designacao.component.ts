@@ -1,16 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTable, MatTableModule } from '@angular/material/table';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatTable } from '@angular/material/table';
+import { Privilegio } from '../privilegio/model/privilegio';
+import { PrivilegioService } from '../privilegio/service/privilegio.service';
+import { SnackComponent } from '../snack/snack.component';
 import { Designacao } from './model/designacao';
 import { Reuniao } from './model/reuniao';
 import { DesignacaoService } from './service/designacao.service';
-import { PrivilegioService } from '../privilegio/service/privilegio.service';
-import { Privilegio } from '../privilegio/model/privilegio';
-import { SnackComponent } from '../snack/snack.component';
-import { FormControl, FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-
-
+import html2pdf from 'html2pdf.js';
 
 
 export interface ReuniaoInterface {
@@ -175,4 +174,15 @@ export class DesignacaoComponent implements OnInit {
     this._snackBar.openFromComponent(SnackComponent, config)
   }
 
+  imprimir() {
+    const element = document.querySelector('#print-section');//id of HTML element
+    const options = {
+      filename: 'my-document.pdf',
+      margin: [0, 0.5, 0, 0.5],
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' },
+    };
+    html2pdf().set(options).from(element).save();
+  }
 }

@@ -16,6 +16,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "html2pdf.js"
+            ],
             "outputPath": "dist/programacao-front",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -35,7 +38,8 @@
             ],
             "scripts": [
               "node_modules/@popperjs/core/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/html2pdf.js/src/index.js"
             ]
           },
           "configurations": {
@@ -60,7 +64,8 @@
               ],
               "scripts": [
                 "node_modules/@popperjs/core/dist/umd/popper.min.js",
-                "node_modules/bootstrap/dist/js/bootstrap.min.js"
+                "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                "node_modules/html2pdf.js/src/index.js"
               ]
             },
             "development": {

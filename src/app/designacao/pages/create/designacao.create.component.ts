@@ -216,7 +216,7 @@ export class DesignacaoCreateComponent implements OnInit {
     });
 
 
-    let conflitoDesignacao = [];
+    let conflitoDesignacao: Designacao[] = [];
     let listDataConflito: any = "";
     this.historicoMes?.forEach(mes => {
       conflitoDesignacao = mes.designacaoList.filter(designacao => {
