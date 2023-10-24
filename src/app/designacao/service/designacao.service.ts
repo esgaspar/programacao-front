@@ -8,7 +8,8 @@ import { Designacao } from '../model/designacao';
 })
 export class DesignacaoService {
 
-    host = "http://89.117.32.90/api/";
+    host = "http://indicadores.groundbreakable.com/";
+    // host = "http://89.117.32.90/api/";
     // host = "http://localhost:8080/api/";
     // host = "https://esgaspar.cloudns.ph/api/";
     designacao_url = this.host + "designacao"
