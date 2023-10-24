@@ -18,7 +18,7 @@ export class AuthService {
     // Provide username and password for authentication, and once authentication is successful, 
     //store JWT token in session
     authenticate(username: string, password: string) {
-        let host = "http://indicadores.groundbreakable.com/"
+        let host = "http://indicadores.groundbreakable.com/api/"
         // let host = "http://89.117.32.90/api/";
         // let host = "http://localhost:8080/api/";
         //let host = "https://esgaspar.cloudns.ph/api/";

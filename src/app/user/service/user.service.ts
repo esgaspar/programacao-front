@@ -7,7 +7,7 @@ import { User } from '../model/user';
     providedIn: 'root'
 })
 export class UserService {
-    host = "http://indicadores.groundbreakable.com/"
+    host = "http://indicadores.groundbreakable.com/api/"
     // host = "http://89.117.32.90/api/";
     // host = "http://localhost:8080/api/";
     // host = "https://esgaspar.cloudns.ph/api/";
