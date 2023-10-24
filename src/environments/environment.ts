@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: "http://indicadores.groundbreakable.com/api/"
+    apiUrl: "https://groundbreakable.com/api/"
 };
