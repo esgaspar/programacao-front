@@ -3,15 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Privilegio } from '../model/privilegio';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PrivilegioService {
-    host = "http://indicadores.groundbreakable.com/api/"
-    // host = "http://89.117.32.90/api/";
-    // host = "http://localhost:8080/api/";
-    // host = "https://esgaspar.cloudns.ph/api/";
+    host = environment.apiUrl;
+
     privilegio_url = this.host + "privilegio"
     constructor(private http: HttpClient) { }
 
