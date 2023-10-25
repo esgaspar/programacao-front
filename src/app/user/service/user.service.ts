@@ -2,15 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../model/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
-    host = "http://indicadores.groundbreakable.com/api/"
-    // host = "http://89.117.32.90/api/";
-    // host = "http://localhost:8080/api/";
-    // host = "https://esgaspar.cloudns.ph/api/";
+    host = environment.apiUrl;
     voluntario_url = this.host + "user"
     constructor(private http: HttpClient) { }
 

@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+app-root {
+
+    --mat-toolbar-container-background-color: #535659 !important;
+
+    .mat-toolbar.mat-primary {
+        background: #3c3c3c !important;
+        opacity: 0.9;
+    }
+
+    body{
+        font-family: NotoSans,Arial,"Arial Unicode MS",sans-serif;
+        line-break: strict;
+        background-color: #f1f1f1;
+        background-color: var(--ct-body-bgColor, #f1f1f1);
+        color: #292929;
+        color: var(--du-color--textDefault, #292929);
+    }
+}
+
+:root,
+[data-bs-theme=light] {
+
+    /* --mat-toolbar-container-background-color: #535659292929 !important; */
+
+
+}
