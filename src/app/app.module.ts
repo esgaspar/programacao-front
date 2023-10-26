@@ -51,6 +51,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+
 import {
   FontAwesomeModule,
   FaIconLibrary,
@@ -70,6 +71,9 @@ import { UserComponent } from './user/user.component';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+
+
+import { APP_BASE_HREF } from '@angular/common';
 
 
 registerLocaleData(ptBr)
@@ -111,7 +115,7 @@ registerLocaleData(ptBr)
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }, DatePipe, {
     provide: HTTP_INTERCEPTORS, useClass: BasicAuthHtppInterceptorService, multi: true
-  }],
+  }, { provide: APP_BASE_HREF, useValue: '/app/voluntary' }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
