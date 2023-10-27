@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 app-root {
-
+    
     --mat-toolbar-container-background-color: #535659 !important;
 
     .mat-toolbar.mat-primary {

@@ -1,0 +1,9 @@
+<div>
+    <button mat-button [matMenuTriggerFor]="menu">{{colorSchemeService.currentActive()}}</button>
+    <mat-menu #menu="matMenu">
+        <button value='dark-theme' mat-menu-item *ngFor="let theme of themes" (click)="setTheme(theme.name)">
+            <fa-icon class="fs-2" [icon]="['fas', 'check']"
+                *ngIf="colorSchemeService.currentActive() === theme.name"></fa-icon>
+            {{ theme.name }}</button>
+    </mat-menu>
+</div>

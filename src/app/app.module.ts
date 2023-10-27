@@ -19,8 +19,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
 
-
-
 import { DesignacaoComponent } from './designacao/designacao.component';
 import { DesignacaoCreateComponent } from './designacao/pages/create/designacao.create.component';
 import { PrivilegioComponent } from './privilegio/privilegio.component';
@@ -53,8 +51,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 import {
-  FontAwesomeModule,
   FaIconLibrary,
+  FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
 
 
@@ -65,15 +63,16 @@ import {
 } from '@angular/cdk/drag-drop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { LoginComponent } from './login/login.component';
 import { BasicAuthHtppInterceptorService } from './security/service/basic-auth-htpp-interceptor.service';
 import { UserComponent } from './user/user.component';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
 
 
 import { APP_BASE_HREF } from '@angular/common';
+import { SettingChangeColorSchemeComponent } from './settings/setting-change-color-scheme/setting-change-color-scheme.component';
 
 
 registerLocaleData(ptBr)
@@ -81,7 +80,7 @@ registerLocaleData(ptBr)
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    HomeComponent, 
     MenuComponent,
     PrivilegioComponent,
     VoluntarioComponent,
@@ -89,7 +88,8 @@ registerLocaleData(ptBr)
     DesignacaoCreateComponent,
     SnackComponent,
     LoginComponent,
-    UserComponent
+    UserComponent,
+    SettingChangeColorSchemeComponent
   ],
   imports: [
     HttpClientModule,
