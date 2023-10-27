@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './security/service/auth.service';
+import { ColorSchemeService } from './service/color-scheme.service';
 
 
 
@@ -15,8 +16,15 @@ export class AppComponent {
   faCoffee = faCoffee
 
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private colorSchemeService: ColorSchemeService) {
+    this.colorSchemeService.load();
 
+
+  }
+
+  appId = 'dark-theme'; // default 
+  switchTheme(appId: string) {
+    this.appId = appId; // changing theme based on choice
   }
 
   logout() {

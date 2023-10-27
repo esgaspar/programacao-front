@@ -1,4 +1,4 @@
-<mat-drawer-container class="container-fluid" [hasBackdrop]="'true'">
+<mat-drawer-container class="container-fluid" [ngClass]="appId" [hasBackdrop]="'true'">
     <mat-drawer #drawer [mode]="'over'">
         <app-menu (onSelect)="drawer.toggle()">
         </app-menu>
@@ -9,9 +9,13 @@
             <button mat-flat-button (click)="drawer.toggle()" *ngIf="isUserLoggedIn">
                 <fa-icon class="fs-2" [icon]="['fas', 'bars']"></fa-icon>
             </button>
+
             <button class="logout" mat-flat-button (click)="logout()" *ngIf="isUserLoggedIn">
-                <fa-icon  class="fs-2" [icon]="['fas', 'right-from-bracket']"></fa-icon>
+                <fa-icon class="fs-2" [icon]="['fas', 'right-from-bracket']"></fa-icon>
             </button>
+
+            <app-setting-change-color-scheme class="logout"></app-setting-change-color-scheme>
+
             <mat-divider class="menu"></mat-divider>
         </div>
 
