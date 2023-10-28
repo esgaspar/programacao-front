@@ -24,7 +24,7 @@ input:read-only {
     cursor: pointer;
   }
 
-  label,
+  :is(label),
   input,
   mat-label {
     cursor: pointer
