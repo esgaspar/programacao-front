@@ -66,3 +66,12 @@ mat-select {
 .mat-mdc-card.min-w {
     max-width: 295px;
 }
+
+.color-scheme-dark {
+
+    .color-scheme-dark .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+    .color-scheme-dark .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+        background: #607d8b !important;
+    }
+
+}
