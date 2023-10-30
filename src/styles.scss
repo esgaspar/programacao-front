@@ -12,8 +12,9 @@ html {
 }
 
 body {
-  height: 100%;
+  height: 100vh;
   margin: 0;
+  padding: 0;
   color: var(--text-color-hard);
   font-weight: 400;
   font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
@@ -36,12 +37,13 @@ $light-theme: mat.define-light-theme((color: (primary: $light-primary,
     ));
 
 // Define a dark theme
-$dark-primary: mat.define-palette(mat.$blue-gray-palette, 900);
+$dark-primary: mat.define-palette(mat.$blue-gray-palette);
 $dark-accent: mat.define-palette(mat.$blue-gray-palette);
 $dark-theme: mat.define-dark-theme((color: (primary: $dark-primary, accent: $dark-accent, density: -2),
     ));
 
 .color-scheme-dark {
+
 
   @include mat.all-component-themes($dark-theme);
 

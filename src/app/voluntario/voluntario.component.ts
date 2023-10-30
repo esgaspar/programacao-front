@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-voluntario',
   templateUrl: './voluntario.component.html',
-  styleUrls: ['./voluntario.component.css']
+  styleUrls: ['./voluntario.component.scss']
 })
 export class VoluntarioComponent implements OnInit {
 
