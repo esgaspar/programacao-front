@@ -43,6 +43,7 @@ export class DesignacaoComponent implements OnInit {
   privilegioList: Privilegio[] = [];
   durationInSeconds: number = 5;
   datepipe: DatePipe;
+  isPrinting = false;
   // ds: ReuniaoInterface[] = [];
 
   constructor(service: DesignacaoService, privilegioService: PrivilegioService, private _snackBar: MatSnackBar, datepipe: DatePipe) {
@@ -175,14 +176,21 @@ export class DesignacaoComponent implements OnInit {
   }
 
   imprimir() {
+
     const element = document.querySelector('#print-section');//id of HTML element
+
+    let start = this.datepipe.transform(this.startDate, "dd-MM-YYYY");
+    let end = this.datepipe.transform(this.endDate, "dd-MM-YYYY");
+
     const options = {
-      filename: 'my-document.pdf',
+      filename: `Indicadores de ${start} até ${end}`,
       margin: [0, 0.5, 0, 0.5],
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' },
     };
-    html2pdf().set(options).from(element).save();
+    html2pdf().set(options).from(element).save().then(result => {
+      console.log("rtersultado")
+    });
   }
 }

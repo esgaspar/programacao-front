@@ -63,6 +63,6 @@ mat-select {
     /* border-bottom-left-radius: var(--border-radio); */
 }
 
-.mat-mdc-card {
+.mat-mdc-card.min-w {
     max-width: 295px;
 }
