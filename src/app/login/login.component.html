@@ -1,25 +1,50 @@
-<!-- <form class="example-form"> -->
-    <mat-form-field class="example-full-width">
-        <mat-label>Usuario</mat-label>
-        <input (keyup)="loginError = false" matInput [formControl]="usernameFormControl" [errorStateMatcher]="matcher" placeholder="Usuario">
-        <mat-error *ngIf="usernameFormControl.hasError('required')">
-            Insira o usuario
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <mat-label>Senha</mat-label>
-        <input (keyup)="loginError = false" matInput type="password" [formControl]="passwordFormControl" [errorStateMatcher]="matcher" placeholder="Senha">
-        <mat-error *ngIf="passwordFormControl.hasError('required')">
-            Insira a senha
-        </mat-error>
-    </mat-form-field>
-    <mat-error *ngIf="loginError">
-        Usuario ou senha incorretos
-    </mat-error>
+<!-- <mat-grid-list cols="1" rows="1" rowHeight="2:1" class="overflow-hidden">
+    <mat-grid-tile> -->
+<!-- <div fxLayout="row" fxFlex="50%" fxFlex="50%">  -->
+<!-- <div  fxFlex fxFlex="50%" fxFlex="50%">  -->
+<!-- <div fxLayout="row" fxLayoutAlign="center center" > -->
+<!-- <div fxLayout="column" fxLayoutAlign="center center" fxFlexAlign="center"> -->
 
-    <div class="action">
-        <a mat-flat-button (click)="login()" class="btnSave">
-            <fa-icon class="fs-2" [icon]="['fas', 'door-open']"></fa-icon>
-        </a>
-    </div>
-<!-- </form> -->
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlexAlign="center" fxLayoutAlign="center"  class="h-100">
+        <mat-card fxFlex="50%" fxFlex.gt-xs="100%" fxFlex.gt-xs="100%" fxFlex.gt-lg="30%"  fxLayoutAlign="center">
+
+
+        <mat-card-content>
+
+            <mat-form-field class="col-12">
+                <mat-label>Usuario</mat-label>
+                <input (keyup)="loginError = false" matInput [formControl]="usernameFormControl"
+                    [errorStateMatcher]="matcher" placeholder="Usuario">
+                <mat-error *ngIf="usernameFormControl.hasError('required')">
+                    Insira o usuario
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-12">
+                <mat-label>Senha</mat-label>
+                <input (keyup)="loginError = false" matInput type="password" [formControl]="passwordFormControl"
+                    [errorStateMatcher]="matcher" placeholder="Senha">
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                    Insira a senha
+                </mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="loginError">
+                Usuario ou senha incorretos
+            </mat-error>
+        </mat-card-content>
+
+        <mat-card-footer>
+
+            <mat-card-actions class="d-flex align-items-end flex-column ">
+
+                <a mat-flat-button (click)="login()" class="btnSave ml-auto">
+                    <fa-icon class="fs-2" [icon]="['fas', 'door-open']"></fa-icon>
+                </a>
+            </mat-card-actions>
+        </mat-card-footer>
+    </mat-card>
+</div>
+<!-- </mat-grid-tile>
+</mat-grid-list> -->
+<!-- </div>
+</div> -->
