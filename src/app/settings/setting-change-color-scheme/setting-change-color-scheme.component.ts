@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Renderer2, RendererFactory2 } from '@angular/core';
 import { IconName, IconPrefix } from '@fortawesome/free-solid-svg-icons';
 import { ColorSchemeService } from 'src/app/service/color-scheme.service';
 
@@ -9,7 +10,6 @@ import { ColorSchemeService } from 'src/app/service/color-scheme.service';
 })
 
 export class SettingChangeColorSchemeComponent {
-
     public themes: { name: string, icon: any[] }[] = [
         {
             name: 'dark',
@@ -22,6 +22,7 @@ export class SettingChangeColorSchemeComponent {
     ];
 
     constructor(public colorSchemeService: ColorSchemeService) {
+
     }
 
     setTheme(theme: string) {

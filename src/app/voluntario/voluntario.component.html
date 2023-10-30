@@ -1,21 +1,25 @@
-<mat-toolbar>
-    <a mat-flat-button (click)="novoVoluntario()">
-        <fa-icon class="fs-3" [icon]="['fas', 'user-plus']"></fa-icon>
-    </a>
+<!-- <div class="row"> -->
+<mat-card class="row p-0 m-0">
+    <mat-card-header class="ps-2 pe-2 pb-0">
+        <a mat-flat-button (click)="novoVoluntario()" class="col-3 col-xl-1 p-4 m-2">
+            <fa-icon class="fs-3" [icon]="['fas', 'user-plus']"></fa-icon>
+        </a>
+        <mat-form-field appearance="outline" (click)="$event.stopPropagation()" class="col col-xl-3 me-2">
+            <input matInput type="text" [(ngModel)]="busca" (keyup.enter)="getList()" placeholder="Buscar">
+            <button matSuffix mat-icon-button aria-label="search" (click)="getList()">
+                <fa-icon [icon]="['fas', 'search']"></fa-icon>
+            </button>
+        </mat-form-field>
+    </mat-card-header>
 
-    <mat-form-field appearance="outline" (click)="$event.stopPropagation()">
-        <input matInput type="text" [(ngModel)]="busca" (keyup.enter)="getList()" placeholder="Buscar">
-        <button matSuffix mat-icon-button aria-label="search" (click)="getList()">
-            <fa-icon [icon]="['fas', 'search']"></fa-icon>
-        </button>
-    </mat-form-field>
-</mat-toolbar>
+</mat-card>
+<!-- </div> -->
 
 <mat-divider class="mb-2 mt-2"></mat-divider>
 
 <div class="row justify-content-center justify-content-lg-start justify-content-xl-start ">
 
-    <mat-card *ngFor="let item of list" class="m-1 col">
+    <mat-card *ngFor="let item of list" class="m-1 col min-w">
         <mat-progress-bar mode="indeterminate" *ngIf="item.isLoading"></mat-progress-bar>
         <mat-card-header>
             <mat-card-title>
@@ -40,8 +44,8 @@
         </mat-card-content>
         <mat-card-footer>
             <button mat-button (click)="removeVoluntario(item);$event.stopPropagation()">
-                    <fa-icon class="fs-4" [icon]="['fas', 'user-minus']"></fa-icon>
-                </button>
+                <fa-icon class="fs-4" [icon]="['fas', 'user-minus']"></fa-icon>
+            </button>
         </mat-card-footer>
     </mat-card>
 </div>

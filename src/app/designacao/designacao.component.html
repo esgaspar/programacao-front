@@ -4,7 +4,7 @@
         <span>Nova reunião</span>
     </a>
 
-    <a mat-flat-button (click)="imprimir()">
+    <a mat-flat-button (click)="isPrinting=true;imprimir()">
         <fa-icon class="fs-4 me-2" [icon]="['fas', 'file-pdf']"></fa-icon>
     </a>
 </div>
@@ -60,39 +60,42 @@
     </mat-expansion-panel>
 </div>
 
-<div id="print-section" class="m-0 p-0">
+<mat-expansion-panel>
 
-    <div class="titulo mt-0">
-        <h2>Indicadores e Volantes</h2>
-    </div>
+    <div id="print-section" class="m-0 p-0">
 
-    <div *ngFor="let item of ds, index as i" class="bloco">
-        <div class="d-flex">
-            <span class="d-flex">
-                <h3>
-                    <strong>
-                        {{stringToDate(item['data']) | date : 'dd'}} de
-                        {{stringToDate(item['data']) | date : 'MMMM - E'}}
-                    </strong>
-                </h3>
-            </span>
-        </div>
-
-        <div class="header-print" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
-            <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
-                <span class="text">{{privilegio.descricao}}</span>
-            </div>
-        </div>
-        <mat-divider class="divider"></mat-divider>
-        <div class="content line" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly end">
-            <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
-                <span>{{item[privilegio.codigo]}}</span>
-            </div>
-            <div>
-            </div>
-        </div>
-        <div class="header-break titulo" *ngIf="i == 9 || i == 16">
+        <div class="titulo mt-0">
             <h2>Indicadores e Volantes</h2>
         </div>
+
+        <div *ngFor="let item of ds, index as i" class="bloco">
+            <div class="d-flex">
+                <span class="d-flex">
+                    <h3>
+                        <strong>
+                            {{stringToDate(item['data']) | date : 'dd'}} de
+                            {{stringToDate(item['data']) | date : 'MMMM - E'}}
+                        </strong>
+                    </h3>
+                </span>
+            </div>
+
+            <div class="header-print" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
+                <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
+                    <span class="text">{{privilegio.descricao}}</span>
+                </div>
+            </div>
+            <mat-divider class="divider"></mat-divider>
+            <div class="content line" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly end">
+                <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
+                    <span>{{item[privilegio.codigo]}}</span>
+                </div>
+                <div>
+                </div>
+            </div>
+            <div class="header-break titulo" *ngIf="i == 9 || i == 16">
+                <h2>Indicadores e Volantes</h2>
+            </div>
+        </div>
     </div>
-</div>
+</mat-expansion-panel>
