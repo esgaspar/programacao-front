@@ -2,34 +2,37 @@
     <fa-icon class="fs-4" [icon]="['fas', 'plus']"></fa-icon>
 
 </a>
+<div class="row justify-content-start me-4 ">
 
-<div cdkDropList class="example-list me-4" (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let item of list" cdkDrag>
-        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+    <div cdkDropList class="col-11 me-0 pe-0" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of list" cdkDrag>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
 
-        <mat-expansion-panel hideToggle>
-            <mat-expansion-panel-header>
-                <mat-panel-title (keydown.Space)="$event.stopPropagation()">
-                    <a mat-flat-button (click)="remove(item);$event.stopPropagation()">
-                        <fa-icon class="fs-4" [icon]="['fas', 'minus']"></fa-icon>
-                    </a>
-                    <mat-form-field class="form-field" appearance="outline" (click)="$event.stopPropagation()">
-                        <input matInput type="text" [(ngModel)]="item.descricao" aria-label="Nome" placeholder="Nome"
-                            required>
-                        <button [disabled]="!item.descricao" matSuffix mat-icon-button aria-label="Save"
-                            (click)="salvar(item);$event.stopPropagation()">
-                            <fa-icon [icon]="['fas', 'arrows-rotate']"></fa-icon>
-                        </button>
-                    </mat-form-field>
-                </mat-panel-title>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header class="ms-0 ps-0">
+                    <mat-panel-title (keydown.Space)="$event.stopPropagation()">
+                        <a mat-flat-button (click)="remove(item);$event.stopPropagation()">
+                            <fa-icon class="fs-2" [icon]="['fas', 'minus']"></fa-icon>
+                        </a>
+                        <mat-form-field class="form-field w-50"appearance="outline"
+                            (click)="$event.stopPropagation()">
+                            <input matInput type="text" [(ngModel)]="item.descricao" aria-label="Nome"
+                                placeholder="Nome" required>
+                            <button [disabled]="!item.descricao" matSuffix mat-icon-button aria-label="Save" class="pe-1"
+                                (click)="salvar(item);$event.stopPropagation()">
+                                <fa-icon [icon]="['fas', 'arrows-rotate']"></fa-icon>
+                            </button>
+                        </mat-form-field>
+                    </mat-panel-title>
 
-            </mat-expansion-panel-header>
-            <mat-list>
-                <mat-list-item *ngFor="let subItem of item.voluntarioList">
-                    <span>{{subItem.nome}}</span>
-                </mat-list-item>
-            </mat-list>
-        </mat-expansion-panel>
+                </mat-expansion-panel-header>
+                <mat-list class="ps-4">
+                    <mat-list-item *ngFor="let subItem of item.voluntarioList">
+                        <span>{{subItem.nome}}</span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-expansion-panel>
 
+        </div>
     </div>
 </div>

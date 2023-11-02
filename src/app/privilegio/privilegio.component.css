@@ -6,7 +6,7 @@
 
 mat-select {
     border-width: thin;
-    width: 80%;
+    /* width: 80%; */
     outline: none;
     float: right;
     padding-right: 1rem;
@@ -43,5 +43,5 @@ mat-form-field {
 mat-list {
     list-style-type: none;
     margin-top: 4px;
-    padding-left: 5rem;
+    /* padding-left: 5rem; */
 }
