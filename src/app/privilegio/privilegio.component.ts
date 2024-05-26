@@ -53,7 +53,7 @@ export class PrivilegioComponent implements OnInit {
   }
 
   novo() {
-    this.list.push(new Privilegio());
+    this.list.unshift(new Privilegio());
   }
 
   salvar(privilegio: Privilegio, sendMsg: boolean = true) {

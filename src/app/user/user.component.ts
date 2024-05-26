@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from './model/user';
 import { UserService } from './service/user.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
@@ -13,7 +13,7 @@ import { SnackComponent } from '../snack/snack.component';
 })
 export class UserComponent implements OnInit {
   isAdm: boolean = false;
-  constructor(private formBuilder: FormBuilder, private service: UserService, private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private service: UserService, private _snackBar: MatSnackBar) {
     this.service.getList().subscribe(
       {
         next: (v: User[]) => {
@@ -63,8 +63,11 @@ export class UserComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
         Validators.pattern(regex)
-      ])
+      ]),
+      roles: this.fb.array(this.myUser.roles),
     });
+
+    console.log("this.myUser.roles", this.form)
 
   }
 
@@ -72,11 +75,15 @@ export class UserComponent implements OnInit {
   get username() { return this.form.get('username'); }
   get email() { return this.form.get('email'); }
   get password() { return this.form.get('password'); }
+  get roles() { return this.form.get('roles'); }
+
 
   set name(name) { this.form.get('name')?.setValue(name); }
   set username(username) { this.form.get('username')?.setValue(username); }
   set email(email) { this.form.get('email')?.setValue(email); }
   set password(password) { this.form.get('password')?.setValue(password); }
+  // set roles(roles) { this.form.get('roles')?.setValue(roles); }
+
 
 
   onSubmit() {

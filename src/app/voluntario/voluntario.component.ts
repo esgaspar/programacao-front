@@ -112,7 +112,7 @@ export class VoluntarioComponent implements OnInit {
   // }
 
   novoVoluntario() {
-    this.list.push(new Voluntario());
+    this.list.unshift(new Voluntario());
   }
 
   removeVoluntario(voluntario: Voluntario) {

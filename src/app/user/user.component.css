@@ -16,14 +16,12 @@ form {
 
 .clickable {
     cursor: pointer;
-    width: 15rem;
+    /* width: 15rem; */
 }
 
 .clickable:hover {
-    /* border-left-style: solid;
-    border-left-width: thin;
-    border-bottom-style: solid;
-    border-bottom-width: thin;
-    border-bottom-left-radius: 5px; */
-    background-color: aliceblue;
+    /* border-bottom-style: solid;
+    border-bottom-width: thin; */
+    /* background-color: aliceblue; */
+    font-weight: bold;
 }
