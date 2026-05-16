@@ -17,7 +17,9 @@ jobs:
           script: |
             set -e
             cd /home/workspace/programacao/programacao-front
-            git pull origin main
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
             source ~/.nvm/nvm.sh
             rm -rf .angular/cache node_modules
             npm install --legacy-peer-deps
