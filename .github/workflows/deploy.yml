@@ -25,6 +25,8 @@ jobs:
             git checkout main
             git reset --hard origin/main
             source ~/.nvm/nvm.sh
+            nvm install 22
+            nvm use 22
             rm -rf .angular/cache
             npm install --legacy-peer-deps
             npm run build-prod
