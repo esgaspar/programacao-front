@@ -8,7 +8,8 @@
     "watch": "ng build --watch",
     "watch:dev": "ng build --watch --configuration=develop serve",
     "test": "ng test",
-    "build-prod": "ng build --configuration=production"
+    "build-prod": "ng build --configuration=production",
+    "stop-process-by-port": "powershell -ExecutionPolicy Bypass -File stop.ps1"
   },
   "private": true,
   "dependencies": {
