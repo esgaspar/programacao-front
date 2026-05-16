@@ -1,8 +1,20 @@
-import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { DatePipe, CommonModule } from '@angular/common';
+import { Component, OnInit, ViewChild, signal } from '@angular/core';
+import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Privilegio } from '../privilegio/model/privilegio';
 import { PrivilegioService } from '../privilegio/service/privilegio.service';
 import { SnackComponent } from '../snack/snack.component';
@@ -11,177 +23,140 @@ import { Reuniao } from './model/reuniao';
 import { DesignacaoService } from './service/designacao.service';
 import html2pdf from 'html2pdf.js';
 
-
-export interface ReuniaoInterface {
-  data: String;
-  volanteEsq?: String;
-  indicadorEstacionamento?: String;
-  volanteDir?: String;
-  video?: String;
-  audio?: String;
-  indicadorAuditorio?: String;
-  indicadorExterno?: String;
-}
-
-
 @Component({
   selector: 'app-designacao',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatTooltipModule,
+    FaIconComponent,
+    DatePipe,
+  ],
   templateUrl: './designacao.component.html',
-  styleUrls: ['./designacao.component.css']
+  styleUrls: ['./designacao.component.css'],
 })
 export class DesignacaoComponent implements OnInit {
-  @ViewChild(MatTable) table: MatTable<any>;
-  ds: Record<string, any>[];
-
+  @ViewChild(MatTable) table!: MatTable<any>;
 
   displayedColumns: String[] = ['data'];
-
-  service: DesignacaoService;
-  privilegioService: PrivilegioService;
-  list: Designacao[] = [];
-  reuniaoList: Reuniao[] = [];
-  privilegioList: Privilegio[] = [];
-  durationInSeconds: number = 5;
-  datepipe: DatePipe;
+  reuniaoList = signal<Reuniao[]>([]);
+  privilegioList = signal<Privilegio[]>([]);
+  ds = signal<Record<string, any>[]>([]);
   isPrinting = false;
-  // ds: ReuniaoInterface[] = [];
-
-  constructor(service: DesignacaoService, privilegioService: PrivilegioService, private _snackBar: MatSnackBar, datepipe: DatePipe) {
-    this.service = service;
-    this.privilegioService = privilegioService;
-    this.datepipe = datepipe;
-  }
-  ngOnInit(): void {
-    // this.getList();
-  }
 
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
+  constructor(
+    private service: DesignacaoService,
+    private privilegioService: PrivilegioService,
+    private _snackBar: MatSnackBar,
+    private datepipe: DatePipe,
+  ) {}
+
+  ngOnInit(): void {}
+
   get startDate() {
-    return this.range.controls.start.value
+    return this.range.controls.start.value;
   }
 
   get endDate() {
-    return this.range.controls.end.value
+    return this.range.controls.end.value;
   }
 
-
-
   getList() {
+    if (this.endDate == null || this.startDate == null) return;
 
-    if (this.endDate == null || this.startDate == null) {
-      return;
-    }
+    const start = this.datepipe.transform(this.startDate, 'dd-MM-YYYY');
+    const end = this.datepipe.transform(this.endDate, 'dd-MM-YYYY');
 
-    let start = this.datepipe.transform(this.startDate, "dd-MM-YYYY");
-    let end = this.datepipe.transform(this.endDate, "dd-MM-YYYY");
-
-    this.service.getByRangeDate(start, end)
-      .subscribe((list: Designacao[]) => {
-        this.list = list;
-        this.reuniaoList = this.transfor(list);
-        this.print();
-      });
+    this.service.getByRangeDate(start, end).subscribe((list: Designacao[]) => {
+      this.reuniaoList.set(this.transfor(list));
+      this.print();
+    });
 
     this.privilegioService.getList().subscribe((list: Privilegio[]) => {
-      this.privilegioList = list;
-
-      this.privilegioList.forEach((privilegio: Privilegio) => {
-        this.displayedColumns.push(privilegio.descricao);
-
-      });
-    })
+      this.privilegioList.set(list);
+      this.privilegioList().forEach(p => this.displayedColumns.push(p.descricao));
+    });
   }
 
   transfor(list: Designacao[]): Reuniao[] {
-    let reuniaoList: Reuniao[] = [];
-
+    const reuniaoList: Reuniao[] = [];
     list.forEach((designacao: Designacao) => {
-      let reuniao = reuniaoList.filter((reuniao: Reuniao) => { return reuniao.data == designacao.data });
-
-
-      if (reuniao.length > 0) {
-        reuniao[0].designacaoList.push(designacao);
-
+      const existing = reuniaoList.find(r => r.data === designacao.data);
+      if (existing) {
+        existing.designacaoList.push(designacao);
       } else {
-        let novaReuniao: Reuniao = new Reuniao();
+        const novaReuniao = new Reuniao();
         novaReuniao.data = designacao.data;
         novaReuniao.check = true;
-        novaReuniao.designacaoList = [];
-        novaReuniao.designacaoList.push(designacao);
+        novaReuniao.designacaoList = [designacao];
         reuniaoList.push(novaReuniao);
       }
-
     });
     return reuniaoList;
   }
 
-  stringToDate(str: String) {
+  stringToDate(str: string) {
     const [day, month, year] = str.split('/');
     return new Date(+year, +month - 1, +day);
   }
 
   print() {
-    this.ds = [];
-    this.reuniaoList.filter(value => value.check).forEach(reuniao => {
-      let reuniaoDs: Record<string, any> = [];
-      reuniaoDs['data'] = reuniao.data;
-
-      this.privilegioList.forEach((element: Privilegio) => {
-        reuniaoDs[element.codigo] = "";
+    const dsItems: Record<string, any>[] = [];
+    this.reuniaoList()
+      .filter(r => r.check)
+      .forEach(reuniao => {
+        const reuniaoDs: Record<string, any> = {};
+        reuniaoDs['data'] = reuniao.data;
+        this.privilegioList().forEach(p => (reuniaoDs[p.codigo] = ''));
+        reuniao.designacaoList.forEach(d => (reuniaoDs[d.privilegio.codigo] = d.voluntario.nome));
+        dsItems.push(reuniaoDs);
       });
-
-
-      reuniao.designacaoList.forEach((designacao: Designacao) => {
-        let voluntarioNome = designacao.voluntario.nome
-        reuniaoDs[designacao.privilegio.codigo] = voluntarioNome
-      });
-
-      this.ds.push(reuniaoDs);
-
-    });
+    this.ds.set(dsItems);
   }
 
   pageBreak(bloco: number) {
-    let blocoAjust = bloco + 1;
-    return blocoAjust.toString().endsWith("0") || blocoAjust.toString().endsWith("5");
+    const n = bloco + 1;
+    return n.toString().endsWith('0') || n.toString().endsWith('5');
   }
 
   remove(value: Reuniao) {
-
     this.service.deleteAll(value.designacaoList).subscribe({
-      next: (v) => {
-        this.openSnackBar("Removido com sucesso", "ok", "sucess");
-        console.log("sucesso", v)
-        this.reuniaoList = this.reuniaoList.filter(h => h.data != value.data);
+      next: () => {
+        this.openSnackBar('Removido com sucesso', 'ok', 'sucess');
+        this.reuniaoList.update(l => l.filter(h => h.data !== value.data));
       },
-      error: (e) => {
-        this.openSnackBar("Erro ao remover", "ok", "error");
-        console.log("erro", e)
-      },
-      complete: () => { console.log("save all complete!") }
-
+      error: () => this.openSnackBar('Erro ao remover', 'ok', 'error'),
     });
-
   }
 
-  openSnackBar(message: string, action: string, type: String) {
-    let config = new MatSnackBarConfig();
+  openSnackBar(message: string, action: string, type: string) {
+    const config = new MatSnackBarConfig();
     config.duration = 1000;
-    config.data = { type: type, message: message, action: action };
-    this._snackBar.openFromComponent(SnackComponent, config)
+    config.data = { type, message, action };
+    this._snackBar.openFromComponent(SnackComponent, config);
   }
 
   imprimir() {
-
-    const element = document.querySelector('#print-section');//id of HTML element
-
-    let start = this.datepipe.transform(this.startDate, "dd-MM-YYYY");
-    let end = this.datepipe.transform(this.endDate, "dd-MM-YYYY");
-
+    const element = document.querySelector('#print-section');
+    const start = this.datepipe.transform(this.startDate, 'dd-MM-YYYY');
+    const end = this.datepipe.transform(this.endDate, 'dd-MM-YYYY');
     const options = {
       filename: `Indicadores de ${start} até ${end}`,
       margin: [0, 0.5, 0, 0.5],
@@ -189,8 +164,6 @@ export class DesignacaoComponent implements OnInit {
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' },
     };
-    html2pdf().set(options).from(element).save().then(result => {
-      console.log("rtersultado")
-    });
+    html2pdf().set(options).from(element).save();
   }
 }

@@ -2,7 +2,7 @@
     <mat-calendar [(selected)]="selectedDate" (selectedChange)="buscaReuniao()"></mat-calendar>
 </mat-card>
 
-<mat-card *ngIf="listPrivilegio.length > 0" class="">
+<mat-card *ngIf="listPrivilegio().length > 0" class="">
 
     <mat-card-header>
         <a mat-flat-button (click)="saveAll()" [disabled]="!selectedDate">
@@ -13,7 +13,7 @@
     <mat-card-content class="d-xl-inline-flex">
 
         <mat-form-field class="example-full-width" [ngClass]="ds[item.codigo]?.alerta?.tipo"
-            [matTooltip]="ds[item.codigo]?.alerta?.mensagem" *ngFor="let item of listPrivilegio">
+            [matTooltip]="ds[item.codigo]?.alerta?.mensagem" *ngFor="let item of listPrivilegio()">
 
             <mat-label [ngClass]="ds[item.codigo]?.alerta?.tipo">{{item.descricao}}</mat-label>
 
@@ -38,7 +38,7 @@
 
 </mat-card>
 
-<div *ngFor="let hist of historicoMes">
+<div *ngFor="let hist of historicoMes()">
 
     <mat-card *ngIf="(stringToDate(hist.data) | date : 'dd/MM/yyyy') != (selectedDate | date : 'dd/MM/yyyy')"
         (click)="selectedDate = stringToDate(hist.data);buscaReuniao()" class="reuniaoHist m-0 p-0">

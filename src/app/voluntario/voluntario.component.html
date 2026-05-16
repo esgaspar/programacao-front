@@ -19,7 +19,7 @@
 
 <div class="row justify-content-center justify-content-lg-start justify-content-xl-start ">
 
-    <mat-card *ngFor="let item of list" class="m-1 col min-w">
+    <mat-card *ngFor="let item of list()" class="m-1 col min-w">
         <mat-progress-bar mode="indeterminate" *ngIf="item.isLoading"></mat-progress-bar>
         <mat-card-header>
             <mat-card-title>
@@ -36,7 +36,7 @@
                 <mat-label>Privilégios</mat-label>
                 <mat-select multiple [compareWith]="compareFn" [(ngModel)]="item.privilegioList"
                     (selectionChange)="salvar(item, false)">
-                    <mat-option *ngFor="let subItem of privilegioList"
+                    <mat-option *ngFor="let subItem of privilegioList()"
                         [value]="subItem">{{subItem.descricao}}</mat-option>
                 </mat-select>
             </mat-form-field>

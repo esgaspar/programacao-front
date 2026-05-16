@@ -1,100 +1,108 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Privilegio } from './model/privilegio';
 import { PrivilegioService } from './service/privilegio.service';
-
-
-
-
-import {
-  CdkDragDrop,
-  moveItemInArray
-} from '@angular/cdk/drag-drop';
 import { SnackComponent } from '../snack/snack.component';
 
 @Component({
   selector: 'app-privilegio',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
+    CdkDrag,
+    CdkDragPlaceholder,
+    CdkDropList,
+    FaIconComponent,
+  ],
   templateUrl: './privilegio.component.html',
-  styleUrls: ['./privilegio.component.css']
+  styleUrls: ['./privilegio.component.css'],
 })
 export class PrivilegioComponent implements OnInit {
-  datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+  list = signal<Privilegio[]>([]);
 
-  service: PrivilegioService;
-  list: Privilegio[] = [];
+  constructor(
+    private service: PrivilegioService,
+    private _snackBar: MatSnackBar,
+  ) {}
 
-  constructor(service: PrivilegioService, private _snackBar: MatSnackBar) {
-    this.service = service;
-  }
   ngOnInit(): void {
     this.getList();
   }
 
   getList() {
-    this.service.getList()
-      .subscribe((list: Privilegio[]) => {
-        this.list = list
-      });
+    this.service.getList().subscribe((list: Privilegio[]) => {
+      this.list.set(list);
+    });
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    this.list[event.previousIndex].ordem = event.currentIndex;
-    moveItemInArray(this.list, event.previousIndex, event.currentIndex);
-
-    for (let index = 0; index < this.list.length; index++) {
-      this.list[index].ordem = index;
+    const current = this.list();
+    current[event.previousIndex].ordem = event.currentIndex;
+    moveItemInArray(current, event.previousIndex, event.currentIndex);
+    for (let i = 0; i < current.length; i++) {
+      current[i].ordem = i;
     }
+    this.list.set([...current]);
 
-    this.service.saveAll(this.list).subscribe({
-      next: (list) => { },
-      error: (e) => { console.error(e); this.openSnackBar("Erro ao salvar", "ok", "error"); },
-      complete: () => { }
-    })
+    this.service.saveAll(this.list()).subscribe({
+      error: () => this.openSnackBar('Erro ao salvar', 'ok', 'error'),
+    });
   }
 
   novo() {
-    this.list.unshift(new Privilegio());
+    this.list.update(l => [new Privilegio(), ...l]);
   }
 
-  salvar(privilegio: Privilegio, sendMsg: boolean = true) {
+  salvar(privilegio: Privilegio, sendMsg = true) {
     privilegio.codigo = this.normalizeCodigo(privilegio.descricao);
     this.service.save(privilegio).subscribe({
-      next: (v) => {
-        if (sendMsg) {
-          this.openSnackBar("Salvo com sucesso", "ok", "sucess");
-        }
-        console.log(v);
+      next: v => {
+        if (sendMsg) this.openSnackBar('Salvo com sucesso', 'ok', 'sucess');
         privilegio.id = v.id;
       },
-      error: (e) => { console.error(e); this.openSnackBar("Erro ao salvar", "ok", "error"); },
-      complete: () => { }
-    })
+      error: () => this.openSnackBar('Erro ao salvar', 'ok', 'error'),
+    });
   }
 
-  openSnackBar(message: string, action: string, type: String) {
-    let config = new MatSnackBarConfig();
+  openSnackBar(message: string, action: string, type: string) {
+    const config = new MatSnackBarConfig();
     config.duration = 1000;
-    config.data = { type: type, message: message, action: action };
-    this._snackBar.openFromComponent(SnackComponent, config)
+    config.data = { type, message, action };
+    this._snackBar.openFromComponent(SnackComponent, config);
   }
 
   remove(toRemove: Privilegio) {
     this.service.remove(toRemove).subscribe({
-      next: v => {
-        this.openSnackBar("Removido com sucesso", "ok", "sucess");
-        this.list = this.list.filter(v => v.id != toRemove.id);
+      next: () => {
+        this.openSnackBar('Removido com sucesso', 'ok', 'sucess');
+        this.list.update(l => l.filter(v => v.id !== toRemove.id));
       },
-      error: e => {
-        this.openSnackBar("Erro ao remover", "ok", "error");
-      },
-      complete: () => {
-
-      }
-    })
+      error: () => this.openSnackBar('Erro ao remover', 'ok', 'error'),
+    });
   }
 
-  normalizeCodigo(value: String) {
-    return value.toLocaleLowerCase().trim().replace(/ /g, "-").normalize('NFD').replace(/\p{Mn}/gu, "");
+  normalizeCodigo(value: string | String) {
+    return value
+      .toLocaleLowerCase()
+      .trim()
+      .replace(/ /g, '-')
+      .normalize('NFD')
+      .replace(/\p{Mn}/gu, '');
   }
-
 }
+

@@ -5,7 +5,7 @@
 <div class="row justify-content-start me-4 ">
 
     <div cdkDropList class="col-11 me-0 pe-0" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of list" cdkDrag>
+        <div class="example-box" *ngFor="let item of list()" cdkDrag>
             <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
 
             <mat-expansion-panel>

@@ -1,39 +1,50 @@
-import { Component } from '@angular/core';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { NgClass, NgIf } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { RouterOutlet } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MenuComponent } from './menu/menu.component';
 import { AuthService } from './security/service/auth.service';
 import { ColorSchemeService } from './service/color-scheme.service';
-
-
+import { SettingChangeColorSchemeComponent } from './settings/setting-change-color-scheme/setting-change-color-scheme.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+    RouterOutlet,
+    MatSidenavModule,
+    MatButtonModule,
+    MatDividerModule,
+    NgClass,
+    NgIf,
+    FaIconComponent,
+    MenuComponent,
+    SettingChangeColorSchemeComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  private authService = inject(AuthService);
+  private colorSchemeService = inject(ColorSchemeService);
+
   title = 'programacao-front';
-  isLoged = false;
-  faCoffee = faCoffee
+  appId = 'dark-theme';
+  isUserLoggedIn = computed(() => this.authService.isLoggedIn());
 
-
-  constructor(private authService: AuthService, private colorSchemeService: ColorSchemeService) {
+  constructor() {
     this.colorSchemeService.load();
-
-
   }
 
-  appId = 'dark-theme'; // default 
   switchTheme(appId: string) {
-    this.appId = appId; // changing theme based on choice
+    this.appId = appId;
   }
 
   logout() {
     this.authService.logOut();
   }
-
-  get isUserLoggedIn() {
-    let user = sessionStorage.getItem("user");
-    return !(user === null);
-  }
-
 }
+

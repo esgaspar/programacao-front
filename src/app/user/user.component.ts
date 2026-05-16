@@ -1,74 +1,82 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { User } from './model/user';
 import { UserService } from './service/user.service';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { SnackComponent } from '../snack/snack.component';
-
 
 @Component({
   selector: 'user',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    FaIconComponent,
+  ],
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
-  isAdm: boolean = false;
-  constructor(private fb: FormBuilder, private service: UserService, private _snackBar: MatSnackBar) {
-    this.service.getList().subscribe(
-      {
-        next: (v: User[]) => {
-          this.list = v;
-        },
-        error: err => { this.openSnackBar("Erro ao recuperar lista de usuarios", "ok", "error"); console.error("Erro ao recuperar lista de usuarios", err) }
-      })
-  }
-
-
-
-  list: User[] = [];
-
-  form: FormGroup;
+  list = signal<User[]>([]);
+  isAdm = false;
+  form!: FormGroup;
   myUser: User = new User();
   userSelected: User = new User();
 
+  constructor(
+    private fb: FormBuilder,
+    private service: UserService,
+    private _snackBar: MatSnackBar,
+  ) {
+    this.service.getList().subscribe({
+      next: (v: User[]) => this.list.set(v),
+      error: err => {
+        this.openSnackBar('Erro ao recuperar lista de usuarios', 'ok', 'error');
+        console.error(err);
+      },
+    });
+  }
+
   ngOnInit(): void {
     this.myUser = new User();
-    this.myUser.email = "";
+    this.myUser.email = '';
 
-    if (sessionStorage.getItem("user") != null) {
-      this.myUser = JSON.parse(sessionStorage.getItem("user") || '{}') || '';
-      this.isAdm = this.myUser.roles.filter(v => v.name == 'admin').length > 0;
-
+    if (sessionStorage.getItem('user') != null) {
+      this.myUser = JSON.parse(sessionStorage.getItem('user') || '{}') || '';
+      this.isAdm = this.myUser.roles.filter(v => v.name === 'admin').length > 0;
       this.userSelected = JSON.parse(JSON.stringify(this.myUser));
     }
 
-    let regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%*()_+^&}{:;?.])(?:([0-9a-zA-Z!@#$%;*(){}_+^&])(?!\1)){8,}$/;
+    const regex =
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%*()_+^&}{:;?.])(?:([0-9a-zA-Z!@#$%;*(){}_+^&])(?!\1)){8,}$/;
 
     this.form = new FormGroup({
-      id: new FormControl(this.myUser.id, [
-      ]),
-      name: new FormControl(this.myUser.name, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
+      id: new FormControl(this.myUser.id),
+      name: new FormControl(this.myUser.name, [Validators.required, Validators.minLength(4)]),
       username: new FormControl(this.myUser.username, [
         Validators.required,
-        Validators.minLength(4)
+        Validators.minLength(4),
       ]),
-      email: new FormControl(this.myUser.email, [
-        Validators.required,
-        Validators.email
-      ]),
+      email: new FormControl(this.myUser.email, [Validators.required, Validators.email]),
       password: new FormControl(this.myUser.password, [
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern(regex)
+        Validators.pattern(regex),
       ]),
       roles: this.fb.array(this.myUser.roles),
     });
-
-    console.log("this.myUser.roles", this.form)
-
   }
 
   get name() { return this.form.get('name'); }
@@ -77,31 +85,22 @@ export class UserComponent implements OnInit {
   get password() { return this.form.get('password'); }
   get roles() { return this.form.get('roles'); }
 
-
-  set name(name) { this.form.get('name')?.setValue(name); }
-  set username(username) { this.form.get('username')?.setValue(username); }
-  set email(email) { this.form.get('email')?.setValue(email); }
-  set password(password) { this.form.get('password')?.setValue(password); }
-  // set roles(roles) { this.form.get('roles')?.setValue(roles); }
-
-
-
   onSubmit() {
-    let user: User = this.form.value;
-    this.service.save(user).subscribe(
-      {
-        next: v => {
-          this.openSnackBar("Salvo com sucesso", "ok", "sucess");
-        },
-        error: err => { this.openSnackBar("Erro ao salvar", "ok", "error"); console.error("Erro ao salvar", err) }
-      })
+    const user: User = this.form.value;
+    this.service.save(user).subscribe({
+      next: () => this.openSnackBar('Salvo com sucesso', 'ok', 'sucess'),
+      error: err => {
+        this.openSnackBar('Erro ao salvar', 'ok', 'error');
+        console.error(err);
+      },
+    });
   }
 
-  openSnackBar(message: string, action: string, type: String) {
-    let config = new MatSnackBarConfig();
+  openSnackBar(message: string, action: string, type: string) {
+    const config = new MatSnackBarConfig();
     config.duration = 1000;
-    config.data = { type: type, message: message, action: action };
-    this._snackBar.openFromComponent(SnackComponent, config)
+    config.data = { type, message, action };
+    this._snackBar.openFromComponent(SnackComponent, config);
   }
 
   onSelectUser(user: User) {
@@ -111,17 +110,12 @@ export class UserComponent implements OnInit {
 
   remove(user: User) {
     this.service.remove(user).subscribe({
-      next: (value) => {
-        this.openSnackBar("removido com sucesso", "", "sucess");
-        this.list = this.list.filter(v => v.id != user.id);
+      next: () => {
+        this.openSnackBar('removido com sucesso', '', 'sucess');
+        this.list.update(l => l.filter(v => v.id !== user.id));
       },
-      error: (err) => {
-        this.openSnackBar("erro ao remover", "ok", "sucess");
-      },
-      complete: () => {
-
-      },
-    })
-
+      error: () => this.openSnackBar('erro ao remover', 'ok', 'sucess'),
+    });
   }
 }
+

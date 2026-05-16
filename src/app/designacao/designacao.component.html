@@ -30,7 +30,7 @@
     </mat-form-field>
 
 
-    <mat-expansion-panel *ngFor="let item of reuniaoList">
+    <mat-expansion-panel *ngFor="let item of reuniaoList()">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <mat-checkbox [checked]="item.check" (click)="print();$event.stopPropagation()"
@@ -68,7 +68,7 @@
             <h2>Indicadores e Volantes</h2>
         </div>
 
-        <div *ngFor="let item of ds, index as i" class="bloco">
+        <div *ngFor="let item of ds(); index as i" class="bloco">
             <div class="d-flex">
                 <span class="d-flex">
                     <h3>
@@ -81,13 +81,13 @@
             </div>
 
             <div class="header-print flex-row-space-evenly">
-                <div class="sec1 flex-col-15" *ngFor="let privilegio of privilegioList">
+                <div class="sec1 flex-col-15" *ngFor="let privilegio of privilegioList()">
                     <span class="text">{{privilegio.descricao}}</span>
                 </div>
             </div>
             <mat-divider class="divider"></mat-divider>
             <div class="content line flex-row-space-evenly-end">
-                <div class="sec1 flex-col-15" *ngFor="let privilegio of privilegioList">
+                <div class="sec1 flex-col-15" *ngFor="let privilegio of privilegioList()">
                     <span>{{item[privilegio.codigo]}}</span>
                 </div>
                 <div>

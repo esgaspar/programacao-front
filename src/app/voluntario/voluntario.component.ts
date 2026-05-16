@@ -1,136 +1,113 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Privilegio } from '../privilegio/model/privilegio';
 import { PrivilegioService } from '../privilegio/service/privilegio.service';
 import { SnackComponent } from '../snack/snack.component';
 import { Voluntario } from './model/voluntario';
 import { VoluntarioService } from './service/voluntario.service';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-voluntario',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatProgressBarModule,
+    FaIconComponent,
+  ],
   templateUrl: './voluntario.component.html',
-  styleUrls: ['./voluntario.component.scss']
+  styleUrls: ['./voluntario.component.scss'],
 })
 export class VoluntarioComponent implements OnInit {
+  list = signal<Voluntario[]>([]);
+  privilegioList = signal<Privilegio[]>([]);
+  busca = '';
 
-  service: VoluntarioService;
-  privilegioService: PrivilegioService;
-  list: Voluntario[] = [];
-  privilegioList: Privilegio[] = [];
-  busca: string = '';
-  privilegio = new FormControl('');
-
-
-
-  constructor(service: VoluntarioService, privilegioService: PrivilegioService, private _snackBar: MatSnackBar) {
-    this.service = service;
-    this.privilegioService = privilegioService;
-  }
-
-  openSnackBar(message: string, action: string, type: String) {
-    let config = new MatSnackBarConfig();
-    config.duration = 1000;
-    config.data = { type: type, message: message, action: action };
-    this._snackBar.openFromComponent(SnackComponent, config)
-  }
+  constructor(
+    private service: VoluntarioService,
+    private privilegioService: PrivilegioService,
+    private _snackBar: MatSnackBar,
+  ) {}
 
   ngOnInit(): void {
     this.getList();
   }
 
-  getList() {
-    this.service.getListByNome(this.busca)
-      .subscribe((list: Voluntario[]) => {
-        this.list = list;
-
-        this.privilegioService.getList().subscribe((privilegioList: Privilegio[]) => {
-          this.privilegioList = privilegioList;
-
-
-          // this.list.forEach(voluntario => {
-          //   this.privilegioList.forEach(privilegio => {
-          //     let privilegioListVoluntario = voluntario.privilegioList;
-          //     let privilegioEncontrado = privilegioListVoluntario.find(p => p.id == privilegio.id);
-          //     if (privilegioEncontrado) {
-          //       privilegioEncontrado.checked = true;
-          //     } else {
-          //       privilegio.checked = false;
-          //       privilegioListVoluntario.push(JSON.parse(JSON.stringify(privilegio)));
-          //     }
-
-          //   });
-
-          //   voluntario.privilegioList.sort((a, b) => a.ordem - b.ordem);
-          // });
-
-        })
-
-      });
-
-
+  openSnackBar(message: string, action: string, type: string) {
+    const config = new MatSnackBarConfig();
+    config.duration = 1000;
+    config.data = { type, message, action };
+    this._snackBar.openFromComponent(SnackComponent, config);
   }
 
-  salvar(voluntario: Voluntario, sendMsg: boolean = true) {
+  getList() {
+    this.service.getListByNome(this.busca).subscribe((list: Voluntario[]) => {
+      this.list.set(list);
+      this.privilegioService.getList().subscribe((privilegioList: Privilegio[]) => {
+        this.privilegioList.set(privilegioList);
+      });
+    });
+  }
+
+  salvar(voluntario: Voluntario, sendMsg = true) {
     voluntario.isLoading = true;
     this.service.save(voluntario).subscribe({
-      next: (v) => {
-        if (sendMsg) {
-          this.openSnackBar("Salvo com sucesso", "ok", "sucess");
-        }
-        console.log(v);
+      next: v => {
+        if (sendMsg) this.openSnackBar('Salvo com sucesso', 'ok', 'sucess');
         voluntario.id = v.id;
       },
-      error: (e) => { console.error(e); this.openSnackBar("Erro ao salvar", "ok", "error"); },
-      complete: () => {
-        setTimeout(() => {
-          voluntario.isLoading = false
-        }, 500);
-      }
-    })
+      error: () => this.openSnackBar('Erro ao salvar', 'ok', 'error'),
+      complete: () => setTimeout(() => (voluntario.isLoading = false), 500),
+    });
   }
 
   isDisabled(privilegio: Privilegio, list: Privilegio[]) {
-    return list.filter(p => p.id == privilegio.id).length > 0;
+    return list.filter(p => p.id === privilegio.id).length > 0;
   }
 
   alteraPrivilegio(voluntario: Voluntario, privilegio: any) {
-    let tmp: Privilegio | undefined = voluntario.privilegioList.pop();
+    const tmp: Privilegio | undefined = voluntario.privilegioList.pop();
     if (tmp !== undefined) {
       tmp.descricao = privilegio.value.descricao;
       tmp.id = privilegio.value.id;
-      tmp.status = "novo";
+      tmp.status = 'novo';
       voluntario.privilegioList.push(tmp);
-
       this.salvar(voluntario);
     }
   }
 
-  // removePrivilegio(voluntario: Voluntario, privilegio: any) {
-  //   voluntario.privilegioList = JSON.parse(JSON.stringify(voluntario.privilegioList.filter(p => p.id !== privilegio.id)));
-  //   this.salvar(voluntario);
-  // }
-
   novoVoluntario() {
-    this.list.unshift(new Voluntario());
+    this.list.update(l => [new Voluntario(), ...l]);
   }
 
   removeVoluntario(voluntario: Voluntario) {
     this.service.remove(voluntario).subscribe({
-      next: v => {
-        this.openSnackBar("Removido com sucesso", "ok", "sucess");
-        this.list = this.list.filter(v => v.id != voluntario.id);
+      next: () => {
+        this.openSnackBar('Removido com sucesso', 'ok', 'sucess');
+        this.list.update(l => l.filter(v => v.id !== voluntario.id));
       },
-      error: e => {
-        this.openSnackBar("Erro ao remover", "ok", "error");
-      },
-      complete: () => {
-
-      }
-    })
+      error: () => this.openSnackBar('Erro ao remover', 'ok', 'error'),
+    });
   }
 
   compareFn(p1: Privilegio, p2: Privilegio) {
     return p1 && p2 ? p1.id === p2.id : p1 === p2;
   }
 }
+

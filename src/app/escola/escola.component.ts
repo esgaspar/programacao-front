@@ -4,25 +4,19 @@ import { Designacao } from '../designacao/model/designacao';
 
 @Component({
   selector: 'escola',
+  standalone: true,
+  imports: [],
   templateUrl: './escola.component.html',
-  styleUrls: ['./escola.component.scss']
+  styleUrls: ['./escola.component.scss'],
 })
 export class EscolaComponent implements OnInit {
-  constructor(public service: EscolaService) {
+  constructor(public service: EscolaService) {}
 
-  }
   ngOnInit(): void {
-
     this.service.getById(1).subscribe({
-      next: (v: Designacao) => {
-
-        console.log(v);
-      },
-      error: (e) => {
-        console.error(e);
-      },
-      complete: () => { }
-    })
+      next: (v: Designacao) => console.log(v),
+      error: (e) => console.error(e),
+    });
   }
-
 }
+

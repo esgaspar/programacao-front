@@ -1,4 +1,4 @@
-import { Voluntario } from "src/app/voluntario/model/voluntario";
+import { Voluntario } from '../../voluntario/model/voluntario';
 
 export class Privilegio {
     id!: number;

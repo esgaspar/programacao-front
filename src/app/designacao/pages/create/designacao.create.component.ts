@@ -1,92 +1,94 @@
-import { DatePipe } from '@angular/common';
-import { Component, OnInit, TrackByFunction } from '@angular/core';
-import { Privilegio } from 'src/app/privilegio/model/privilegio';
-import { PrivilegioService } from 'src/app/privilegio/service/privilegio.service';
-import { Voluntario } from 'src/app/voluntario/model/voluntario';
-import { Designacao } from '../../model/designacao';
-import { DesignacaoService } from '../../service/designacao.service';
-import { SnackComponent } from 'src/app/snack/snack.component';
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { Privilegio } from '../../../privilegio/model/privilegio';
+import { PrivilegioService } from '../../../privilegio/service/privilegio.service';
+import { Voluntario } from '../../../voluntario/model/voluntario';
+import { Designacao } from '../../model/designacao';
 import { Reuniao } from '../../model/reuniao';
-
-
-
-export interface ReuniaoInterface {
-  data: String;
-  volanteEsq?: String;
-  indicadorEstacionamento?: String;
-  volanteDir?: String;
-  video?: String;
-  audio?: String;
-  indicadorAuditorio?: String;
-  indicadorExterno?: String;
-}
+import { DesignacaoService } from '../../service/designacao.service';
+import { SnackComponent } from '../../../snack/snack.component';
 
 @Component({
   selector: 'app-designacao-create',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    FaIconComponent,
+    DatePipe,
+  ],
   templateUrl: './designacao.create.component.html',
-  styleUrls: ['./designacao.create.component.css']
+  styleUrls: ['./designacao.create.component.css'],
 })
 export class DesignacaoCreateComponent implements OnInit {
-  selectedDate: Date | null;
+  selectedDate: Date | null = null;
 
+  listPrivilegio = signal<Privilegio[]>([]);
+  historicoMes = signal<Reuniao[]>([]);
 
-  privilegioService: PrivilegioService;
-  datepipe: DatePipe;
-  service: DesignacaoService;
-  listPrivilegio: Privilegio[] = [];
-  ds: Record<string, any> = [];
-  search: Record<string, any> = [];
-  filteredOptions: Record<string, any> = [];
+  ds: Record<string, any> = {};
+  search: Record<string, any> = {};
+  filteredOptions: Record<string, any> = {};
 
-
-  constructor(privilegioService: PrivilegioService,
-    service: DesignacaoService,
-    datepipe: DatePipe,
-    private _snackBar: MatSnackBar) {
-    this.datepipe = datepipe;
-    this.privilegioService = privilegioService;
-    this.service = service;
-  }
-
-  openSnackBar(message: string, action: string, type: String) {
-    let config = new MatSnackBarConfig();
-    config.duration = 1000;
-    config.data = { type: type, message: message, action: action };
-    this._snackBar.openFromComponent(SnackComponent, config)
-  }
+  constructor(
+    private privilegioService: PrivilegioService,
+    private service: DesignacaoService,
+    private datepipe: DatePipe,
+    private _snackBar: MatSnackBar,
+  ) {}
 
   ngOnInit(): void {
     this.getList();
-    this.ds["data"] = "";
+    this.ds['data'] = '';
     this.buscaMes();
   }
 
+  openSnackBar(message: string, action: string, type: string) {
+    const config = new MatSnackBarConfig();
+    config.duration = 1000;
+    config.data = { type, message, action };
+    this._snackBar.openFromComponent(SnackComponent, config);
+  }
+
   getList() {
-    this.privilegioService.getList()
-      .subscribe((list: Privilegio[]) => {
-        this.listPrivilegio = list
-        this.initDs();
-      });
+    this.privilegioService.getList().subscribe((list: Privilegio[]) => {
+      this.listPrivilegio.set(list);
+      this.initDs();
+    });
   }
 
   private initDs() {
-    this.listPrivilegio.forEach(element => {
-      this.ds[element.codigo] = "";
-      this.search[element.codigo] = "";
-
+    this.listPrivilegio().forEach(element => {
+      this.ds[element.codigo] = '';
+      this.search[element.codigo] = '';
     });
   }
 
   buscaReuniao() {
     if (this.selectedDate) {
-
-      let data = this.datepipe.transform(this.selectedDate, "dd-MM-YYYY");
-
+      const data = this.datepipe.transform(this.selectedDate, 'dd-MM-YYYY');
       if (data) {
         this.service.getByDate(data).subscribe({
           next: (v: Designacao[]) => {
-
             if (!v.length) {
               this.initDs();
             } else {
@@ -95,198 +97,126 @@ export class DesignacaoCreateComponent implements OnInit {
                 this.search[element.privilegio.codigo] = element.voluntario.nome;
               });
             }
-
-            console.log(v);
           },
-          error: (e) => {
-            console.error(e);
-          },
-          complete: () => { }
-        })
-      }else{
-        
+          error: e => console.error(e),
+        });
       }
     }
     this.buscaMes();
   }
 
-  historicoMes: Reuniao[];
-
   buscaMes() {
-    let data;
-
-    if (this.selectedDate) {
-
-      data = this.datepipe.transform(this.selectedDate, "MM");
-    } else {
-      data = this.datepipe.transform(new Date(), "MM");
-    }
+    const data = this.selectedDate
+      ? this.datepipe.transform(this.selectedDate, 'MM')
+      : this.datepipe.transform(new Date(), 'MM');
 
     if (data) {
       this.service.getByMes(data).subscribe({
         next: (v: Designacao[]) => {
-
-          if (v.length) {
-            this.historicoMes = this.transfor(v);
-          }
-
-          console.log(v);
+          if (v.length) this.historicoMes.set(this.transfor(v));
         },
-        error: (e) => {
-          console.error(e);
-        },
-        complete: () => { }
-      })
+        error: e => console.error(e),
+      });
     }
   }
 
   saveAll() {
-    let designacaoListToSave: Designacao[] = [];
-
-    this.listPrivilegio.forEach(privilegio => {
-      let designacao = new Designacao();
-      let data = this.datepipe.transform(this.selectedDate, "dd-MM-YYYY");
-
-      if (!data) { return }
-
+    const designacaoListToSave: Designacao[] = [];
+    this.listPrivilegio().forEach(privilegio => {
+      const data = this.datepipe.transform(this.selectedDate, 'dd-MM-YYYY');
+      if (!data) return;
+      const designacao = new Designacao();
       designacao.data = data;
       designacao.privilegio = privilegio;
-      let v = new Voluntario();
-      v = this.ds[privilegio.codigo];
-      designacao.voluntario = v;
-
+      designacao.voluntario = this.ds[privilegio.codigo];
       designacaoListToSave.push(designacao);
     });
 
     this.service.saveAll(designacaoListToSave).subscribe({
-      next: (v) => {
-        this.openSnackBar("Salvo com sucesso", "ok", "sucess");
-        console.log("sucesso", v)
-      },
-      error: (e) => {
-        this.openSnackBar("Erro ao salvar", "ok", "error");
-        console.log("erro", e)
-      },
-      complete: () => { console.log("save all complete!") }
-
+      next: () => this.openSnackBar('Salvo com sucesso', 'ok', 'sucess'),
+      error: () => this.openSnackBar('Erro ao salvar', 'ok', 'error'),
     });
-
   }
 
   remove(value: Reuniao) {
-
     this.service.deleteAll(value.designacaoList).subscribe({
-      next: (v) => {
-        this.openSnackBar("Removido com sucesso", "ok", "sucess");
-        console.log("sucesso", v)
-        this.historicoMes = this.historicoMes.filter(h => h.data != value.data);
+      next: () => {
+        this.openSnackBar('Removido com sucesso', 'ok', 'sucess');
+        this.historicoMes.update(l => l.filter(h => h.data !== value.data));
       },
-      error: (e) => {
-        this.openSnackBar("Erro ao remover", "ok", "error");
-        console.log("erro", e)
-      },
-      complete: () => { console.log("save all complete!") }
-
+      error: () => this.openSnackBar('Erro ao remover', 'ok', 'error'),
     });
-
   }
 
   displayFn(voluntario: Voluntario): string {
-
-    return (voluntario && voluntario.nome ? voluntario.nome : "").toString();
+    return voluntario && voluntario.nome ? voluntario.nome.toString() : '';
   }
 
   changeSelect(privilegio: Privilegio, voluntario: any) {
+    if (!voluntario?.option?.value?.id) return;
 
-    console.log("voluntario", voluntario);
-    if (!voluntario || !voluntario?.option?.value?.id)
-      return;
+    const v = JSON.parse(JSON.stringify(voluntario.option.value));
+    const alerta: { tipo: string; mensagem: string[] } = { tipo: '', mensagem: [] };
 
-    let v = JSON.parse(JSON.stringify(voluntario?.option?.value))
-    let alerta = { tipo: '', mensagem: [''] };
-
-    this.listPrivilegio?.forEach(p => {
-      if (this.ds[p.codigo].id === v.id && p.codigo !== privilegio.codigo) {
-        if (alerta.mensagem[0] === '')
-          alerta.mensagem.pop()
+    this.listPrivilegio().forEach(p => {
+      if (this.ds[p.codigo]?.id === v.id && p.codigo !== privilegio.codigo) {
         alerta.tipo = 'erro';
-        alerta.mensagem.push(`[Conflito com designação de ${p.descricao} nesta semana]
-        
-
-        `);
+        alerta.mensagem.push(`[Conflito com designação de ${p.descricao} nesta semana]`);
       }
     });
 
-
-    let conflitoDesignacao: Designacao[] = [];
-    let listDataConflito: any = "";
-    this.historicoMes?.forEach(mes => {
-      conflitoDesignacao = mes.designacaoList.filter(designacao => {
-        return designacao.privilegio.id === privilegio.id && v.id === designacao.voluntario.id
-      })
-      conflitoDesignacao.forEach(element => {
-        listDataConflito = listDataConflito == '' ? element.data : listDataConflito + ', ' + element.data;
-      });
+    let listDataConflito: string | String = '';
+    this.historicoMes().forEach(mes => {
+      mes.designacaoList
+        .filter(d => d.privilegio.id === privilegio.id && v.id === d.voluntario.id)
+        .forEach(d => {
+          listDataConflito = listDataConflito === '' ? d.data : listDataConflito + ', ' + d.data;
+        });
     });
 
-    if (listDataConflito !== "") {
-      if (alerta.mensagem[0] === '')
-        alerta.mensagem.pop()
+    if (listDataConflito !== '') {
       alerta.tipo = 'erro';
-      alerta.mensagem.push(` 
-
-      [Conflito com designação de ${privilegio.descricao} em ${listDataConflito.toLocaleString()}]`)
-
+      alerta.mensagem.push(
+        `[Conflito com designação de ${privilegio.descricao} em ${listDataConflito}]`,
+      );
     }
 
     setTimeout(() => {
-      v.alerta = alerta
+      v.alerta = alerta;
       this.ds[privilegio.codigo] = v;
-    }, 10);;
+    }, 10);
   }
-
-
 
   private _filter(nome: string, options: Voluntario[]): Voluntario[] {
     const filterValue = nome.toLowerCase();
-
-    return options.filter(option => option.nome.toLowerCase().includes(filterValue));
+    return options.filter(o => o.nome.toLowerCase().includes(filterValue));
   }
 
   busca(e: any, privilegio: Privilegio) {
-
-    let input = document.getElementById(
-      'busca_' + privilegio.codigo,
-    ) as HTMLInputElement | null;
-
-    if (input)
+    const input = document.getElementById('busca_' + privilegio.codigo) as HTMLInputElement | null;
+    if (input) {
       this.filteredOptions[privilegio.codigo] = this._filter(input.value, privilegio.voluntarioList);
+    }
   }
 
   transfor(list: Designacao[]): Reuniao[] {
-    let reuniaoList: Reuniao[] = [];
-
+    const reuniaoList: Reuniao[] = [];
     list.forEach((designacao: Designacao) => {
-      let reuniao = reuniaoList.filter((reuniao: Reuniao) => { return reuniao.data == designacao.data });
-
-
-      if (reuniao.length > 0) {
-        reuniao[0].designacaoList.push(designacao);
-
+      const existing = reuniaoList.find(r => r.data === designacao.data);
+      if (existing) {
+        existing.designacaoList.push(designacao);
       } else {
-        let novaReuniao: Reuniao = new Reuniao();
+        const novaReuniao = new Reuniao();
         novaReuniao.data = designacao.data;
         novaReuniao.check = true;
-        novaReuniao.designacaoList = [];
-        novaReuniao.designacaoList.push(designacao);
+        novaReuniao.designacaoList = [designacao];
         reuniaoList.push(novaReuniao);
       }
-
     });
     return reuniaoList;
   }
 
-  stringToDate(str: String): Date {
+  stringToDate(str: string): Date {
     const [day, month, year] = str.split('/');
     return new Date(+year, +month - 1, +day);
   }

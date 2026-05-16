@@ -115,7 +115,7 @@
             </span>
         </div>
 
-        <span *ngFor="let item of list">
+        <span *ngFor="let item of list()">
             <div *ngIf="item.id != myUser.id">
                 <span>
                     <a mat-flat-button (click)="remove(item);$event.stopPropagation()" (click)="onSelectUser(item)"
