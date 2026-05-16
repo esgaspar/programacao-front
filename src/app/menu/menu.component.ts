@@ -8,11 +8,10 @@ import { AuthService } from '../security/service/auth.service';
     selector: 'app-menu',
     imports: [RouterLink, MatToolbarModule, FaIconComponent],
     templateUrl: './menu.component.html',
-    styleUrls: ['./menu.component.css']
+    styleUrl: './menu.component.scss',
 })
 export class MenuComponent {
   @Output() onSelect = new EventEmitter<string>();
 
   constructor(public authService: AuthService) {}
 }
-

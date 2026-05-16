@@ -2,14 +2,19 @@
 @include mat.elevation-classes();
 @include mat.app-background();
 
-@import "var-bs-dark.scss";
-@import "var-bs-light.scss";
+:root {
+  .color-scheme-dark {
+    --bs-body-bg: #303030;
+  }
 
+  .color-scheme-light {
+    --bs-body-bg: #fafafa;
+  }
+}
 
 html {
   height: 100%;
   box-sizing: border-box;
-
 }
 
 body {
@@ -37,48 +42,32 @@ $light-theme: mat.m2-define-light-theme((color: (primary: $light-primary,
       ),
     ));
 
-// Define a dark theme
 $dark-primary: mat.m2-define-palette(mat.$m2-blue-gray-palette);
 $dark-accent: mat.m2-define-palette(mat.$m2-blue-gray-palette);
 $dark-theme: mat.m2-define-dark-theme((color: (primary: $dark-primary, accent: $dark-accent, density: -2),
     ));
 
 .color-scheme-dark {
-
-
   @include mat.all-component-themes($dark-theme);
-
 }
 
 .color-scheme-light {
-
   @include mat.all-component-themes($light-theme);
-
 }
 
-/**
+// Global gradient utility
+.background-gradient {
+  background: linear-gradient(to bottom, #504d7c 0%, #4a6da7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  scale: 2;
 
-$purple-palette,
-$deep-purple-palette,
-$blue-palette,
-$light-blue-palette,
-$cyan-palette,
-$teal-palette,
-$green-palette,
-$light-green-palette,
-$lime-palette,
-$yellow-palette,
-$amber-palette,
-$orange-palette,
-$deep-orange-palette,
-$brown-palette,
-$grey-palette,
-$gray-palette,
-$blue-grey-palette,
-$blue-gray-palette,
-$light-theme-background-palette,
-$dark-theme-background-palette,
-$light-theme-foreground-palette,
-$dark-theme-foreground-palette
-
-**/
+  &:active,
+  &:hover,
+  &:focus {
+    background: linear-gradient(to bottom, #4a6da7 0%, #504d7c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}

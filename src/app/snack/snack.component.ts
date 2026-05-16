@@ -1,13 +1,12 @@
 import { Component, Inject, inject } from '@angular/core';
-import { NgIf } from '@angular/common';
 import { MAT_SNACK_BAR_DATA, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
     selector: 'snack-bar',
-    imports: [NgIf, MatSnackBarModule, FaIconComponent],
+    imports: [MatSnackBarModule, FaIconComponent],
     templateUrl: './snack.component.html',
-    styleUrls: ['./snack.component.css']
+    styleUrl: './snack.component.scss',
 })
 export class SnackComponent {
   snackBarRef = inject(MatSnackBarRef);
@@ -19,5 +18,3 @@ export class SnackComponent {
     this.type = data.type;
   }
 }
-
-

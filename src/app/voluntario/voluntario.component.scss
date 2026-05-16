@@ -1,77 +1,25 @@
-@import url(/src/app/default.css);
-
 .remover {
-    float: right;
-}
-
-mat-select {
-    border-width: thin;
-    width: 80%;
-    outline: none;
-    float: right;
-    padding-right: 1rem;
-
-    border: 1px solid #4a6da7;
-    --border-radio: 5px;
-    -webkit-border-top-right-radius: var(--border-radio);
-    -webkit-border-bottom-right-radius: var(--border-radio);
-    -moz-border-radius-topright: var(--border-radio);
-    -moz-border-radius-bottomright: var(--border-radio);
-    border-top-right-radius: var(--border-radio);
-    border-bottom-right-radius: var(--border-radio);
-
-    -webkit-border-top-left-radius: var(--border-radio);
-    -webkit-border-bottom-left-radius: var(--border-radio);
-    -moz-border-radius-topleft: var(--border-radio);
-    -moz-border-radius-bottomleft: var(--border-radio);
-    border-top-left-radius: var(--border-radio);
-    border-bottom-left-radius: var(--border-radio);
+  float: right;
 }
 
 mat-expansion-panel-header {
-    height: fit-content;
-    align-items: center;
-    padding: 0, 5rem;
+  height: fit-content;
+  align-items: center;
+  padding: 0 5rem;
 }
 
 ul {
-    list-style-type: none;
-    margin-top: 4px;
-    /* padding-left: 5rem; */
-}
-
-
-mat-select {
-    border: none;
-    width: 100%;
-    outline: none;
-    /* float: right; */
-    /* padding-right: 1rem; */
-    /* border: 1px solid #4a6da7; */
-    /* --border-radio: 5px; */
-    /* -webkit-border-top-right-radius: var(--border-radio); */
-    /* -webkit-border-bottom-right-radius: var(--border-radio); */
-    -moz-border-radius-topright: var(--border-radio);
-    -moz-border-radius-bottomright: var(--border-radio);
-    /* border-top-right-radius: var(--border-radio); */
-    /* border-bottom-right-radius: var(--border-radio); */
-    /* -webkit-border-top-left-radius: var(--border-radio); */
-    /* -webkit-border-bottom-left-radius: var(--border-radio); */
-    -moz-border-radius-topleft: var(--border-radio);
-    -moz-border-radius-bottomleft: var(--border-radio);
-    /* border-top-left-radius: var(--border-radio); */
-    /* border-bottom-left-radius: var(--border-radio); */
+  list-style-type: none;
+  margin-top: 4px;
 }
 
 .mat-mdc-card.min-w {
-    max-width: 295px;
+  max-width: 295px;
 }
 
 .color-scheme-dark {
-
-    .color-scheme-dark .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
-    .color-scheme-dark .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
-        background: #607d8b !important;
-    }
-
+  .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+  .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+    background: #607d8b !important;
+  }
 }

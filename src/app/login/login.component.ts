@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../security/service/auth.service';
 import { Router } from '@angular/router';
@@ -25,11 +24,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        NgIf,
         FaIconComponent,
     ],
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   loginError = false;
@@ -54,4 +52,3 @@ export class LoginComponent {
     }
   }
 }
-

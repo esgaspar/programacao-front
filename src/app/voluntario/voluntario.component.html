@@ -1,4 +1,3 @@
-<!-- <div class="row"> -->
 <mat-card class="row p-0 m-0">
     <mat-card-header class="ps-2 pe-2 pb-0">
         <a mat-flat-button (click)="novoVoluntario()" class="col-3 col-xl-1 p-4 m-2">
@@ -11,42 +10,43 @@
             </button>
         </mat-form-field>
     </mat-card-header>
-
 </mat-card>
-<!-- </div> -->
 
 <mat-divider class="mb-2 mt-2"></mat-divider>
 
-<div class="row justify-content-center justify-content-lg-start justify-content-xl-start ">
+<div class="row justify-content-center justify-content-lg-start justify-content-xl-start">
 
-    <mat-card *ngFor="let item of list()" class="m-1 col min-w">
-        <mat-progress-bar mode="indeterminate" *ngIf="item.isLoading"></mat-progress-bar>
-        <mat-card-header>
-            <mat-card-title>
-                <mat-label></mat-label>
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-form-field appearance="outline">
-                <mat-label>Publicador</mat-label>
-                <input matInput type="text" [(ngModel)]="item.nome" (keyup.enter)="salvar(item, false)"
-                    (blur)="salvar(item, false)" placeholder="Publicador">
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="m-0">
-                <mat-label>Privilégios</mat-label>
-                <mat-select multiple [compareWith]="compareFn" [(ngModel)]="item.privilegioList"
-                    (selectionChange)="salvar(item, false)">
-                    <mat-option *ngFor="let subItem of privilegioList()"
-                        [value]="subItem">{{subItem.descricao}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-divider></mat-divider>
-        </mat-card-content>
-        <mat-card-footer>
-            <button mat-button (click)="removeVoluntario(item);$event.stopPropagation()">
-                <fa-icon class="fs-4" [icon]="['fas', 'user-minus']"></fa-icon>
-            </button>
-        </mat-card-footer>
-    </mat-card>
+    @for (item of list(); track item.id) {
+        <mat-card class="m-1 col min-w">
+            @if (item.isLoading) {
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            }
+            <mat-card-header>
+                <mat-card-title></mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Publicador</mat-label>
+                    <input matInput type="text" [(ngModel)]="item.nome" (keyup.enter)="salvar(item, false)"
+                        (blur)="salvar(item, false)" placeholder="Publicador">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="m-0">
+                    <mat-label>Privilégios</mat-label>
+                    <mat-select multiple [compareWith]="compareFn" [(ngModel)]="item.privilegioList"
+                        (selectionChange)="salvar(item, false)">
+                        @for (subItem of privilegioList(); track subItem.id) {
+                            <mat-option [value]="subItem">{{subItem.descricao}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-divider></mat-divider>
+            </mat-card-content>
+            <mat-card-footer>
+                <button mat-button (click)="removeVoluntario(item);$event.stopPropagation()">
+                    <fa-icon class="fs-4" [icon]="['fas', 'user-minus']"></fa-icon>
+                </button>
+            </mat-card-footer>
+        </mat-card>
+    }
 </div>
 <div class="mb-3"></div>

@@ -1,6 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,7 +14,6 @@ import { SnackComponent } from '../snack/snack.component';
 @Component({
     selector: 'user',
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         MatButtonModule,
         MatExpansionModule,
@@ -25,7 +23,7 @@ import { SnackComponent } from '../snack/snack.component';
         FaIconComponent,
     ],
     templateUrl: './user.component.html',
-    styleUrls: ['./user.component.css']
+    styleUrl: './user.component.scss',
 })
 export class UserComponent implements OnInit {
   list = signal<User[]>([]);
@@ -117,4 +115,3 @@ export class UserComponent implements OnInit {
     });
   }
 }
-

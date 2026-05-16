@@ -1,5 +1,9 @@
 <span matSnackBarLabel>
-    <fa-icon class="fs-4 me-2" [icon]="['fas', 'circle-check']" *ngIf="data.type == 'sucess'"></fa-icon>
-    <fa-icon class="fs-4 me-2" [icon]="['fas', 'exclamation-triangle']" *ngIf="data.type == 'error'"></fa-icon>
+    @if (data.type == 'sucess') {
+        <fa-icon class="fs-4 me-2" [icon]="['fas', 'circle-check']"></fa-icon>
+    }
+    @if (data.type == 'error') {
+        <fa-icon class="fs-4 me-2" [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+    }
     {{mensagem}}
 </span>

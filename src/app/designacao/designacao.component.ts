@@ -1,8 +1,7 @@
-import { DatePipe, CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -26,7 +25,6 @@ import html2pdf from 'html2pdf.js';
 @Component({
     selector: 'app-designacao',
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         RouterLink,
         MatButtonModule,
@@ -38,18 +36,14 @@ import html2pdf from 'html2pdf.js';
         MatExpansionModule,
         MatFormFieldModule,
         MatInputModule,
-        MatTableModule,
         MatTooltipModule,
         FaIconComponent,
         DatePipe,
     ],
     templateUrl: './designacao.component.html',
-    styleUrls: ['./designacao.component.css']
+    styleUrl: './designacao.component.scss',
 })
 export class DesignacaoComponent implements OnInit {
-  @ViewChild(MatTable) table!: MatTable<any>;
-
-  displayedColumns: String[] = ['data'];
   reuniaoList = signal<Reuniao[]>([]);
   privilegioList = signal<Privilegio[]>([]);
   ds = signal<Record<string, any>[]>([]);
@@ -90,7 +84,6 @@ export class DesignacaoComponent implements OnInit {
 
     this.privilegioService.getList().subscribe((list: Privilegio[]) => {
       this.privilegioList.set(list);
-      this.privilegioList().forEach(p => this.displayedColumns.push(p.descricao));
     });
   }
 

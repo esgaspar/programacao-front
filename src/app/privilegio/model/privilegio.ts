@@ -4,8 +4,8 @@ export class Privilegio {
     id!: number;
     ordem!: number;
     codigo!: string;
-    descricao!: String;
+    descricao!: string;
     voluntarioList!: Voluntario[];
-    status!: String;
-  checked: boolean;
+    status!: string;
+    checked = false;
 }

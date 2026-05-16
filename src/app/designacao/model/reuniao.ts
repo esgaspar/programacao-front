@@ -1,9 +1,7 @@
-import { Privilegio } from '../../privilegio/model/privilegio';
-import { Voluntario } from '../../voluntario/model/voluntario';
 import { Designacao } from "./designacao";
 
 export class Reuniao {
-    data!: String;
+    data!: string;
     designacaoList: Designacao[] = [];
     check: boolean = false;
 }

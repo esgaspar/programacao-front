@@ -16,7 +16,6 @@ input:read-only {
   cursor: pointer;
 }
 
-
 .reuniaoHist {
   cursor: pointer;
 
@@ -27,7 +26,7 @@ input:read-only {
   :is(label),
   input,
   mat-label {
-    cursor: pointer
+    cursor: pointer;
   }
 }
 

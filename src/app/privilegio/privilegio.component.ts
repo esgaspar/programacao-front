@@ -1,5 +1,4 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +6,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Privilegio } from './model/privilegio';
@@ -16,23 +16,24 @@ import { SnackComponent } from '../snack/snack.component';
 @Component({
     selector: 'app-privilegio',
     imports: [
-        CommonModule,
         FormsModule,
         MatButtonModule,
         MatExpansionModule,
         MatFormFieldModule,
         MatInputModule,
         MatListModule,
+        MatTooltipModule,
         CdkDrag,
         CdkDragPlaceholder,
         CdkDropList,
         FaIconComponent,
     ],
     templateUrl: './privilegio.component.html',
-    styleUrls: ['./privilegio.component.css']
+    styleUrl: './privilegio.component.scss',
 })
 export class PrivilegioComponent implements OnInit {
   list = signal<Privilegio[]>([]);
+  expandedItem = signal<Privilegio | null>(null);
 
   constructor(
     private service: PrivilegioService,
@@ -95,7 +96,7 @@ export class PrivilegioComponent implements OnInit {
     });
   }
 
-  normalizeCodigo(value: string | String) {
+  normalizeCodigo(value: string) {
     return value
       .toLocaleLowerCase()
       .trim()
@@ -104,4 +105,3 @@ export class PrivilegioComponent implements OnInit {
       .replace(/\p{Mn}/gu, '');
   }
 }
-

@@ -2,60 +2,67 @@
     <mat-calendar [(selected)]="selectedDate" (selectedChange)="buscaReuniao()"></mat-calendar>
 </mat-card>
 
-<mat-card *ngIf="listPrivilegio().length > 0" class="">
-
-    <mat-card-header>
-        <a mat-flat-button (click)="saveAll()" [disabled]="!selectedDate">
-            <fa-icon class="fs-4 me-2" [icon]="['fas', 'cloud-arrow-up']"></fa-icon>
-        </a>
-        <mat-label class="h4"> {{selectedDate | date : 'dd/MM/yyyy - EEEE'}} </mat-label>
-    </mat-card-header>
-    <mat-card-content class="d-xl-inline-flex">
-
-        <mat-form-field class="example-full-width" [ngClass]="ds[item.codigo]?.alerta?.tipo"
-            [matTooltip]="ds[item.codigo]?.alerta?.mensagem" *ngFor="let item of listPrivilegio()">
-
-            <mat-label [ngClass]="ds[item.codigo]?.alerta?.tipo">{{item.descricao}}</mat-label>
-
-            <input type="text" placeholder="{{item.descricao}}" matInput id="busca_{{item.codigo}}"
-                [value]="search[item.codigo]" [disabled]="!selectedDate" [matAutocomplete]="auto"
-                (keyup)="busca($event, item)" (focus)="busca($event, item)" [ngClass]="ds[item.codigo]?.alerta?.tipo">
-
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                (optionSelected)="changeSelect(item, $event)">
-                <mat-option *ngFor="let voluntario of this.filteredOptions[item.codigo]" [value]="voluntario">
-                    {{voluntario.nome}}
-                </mat-option>
-            </mat-autocomplete>
-
-            <span *ngFor="let err of ds[item.codigo]?.alerta?.mensagem">
-                <mat-divider *ngIf="err"></mat-divider>
-                <mat-error *ngIf="err">{{err}}</mat-error>
-                <mat-divider *ngIf="err"></mat-divider>
-            </span>
-        </mat-form-field>
-    </mat-card-content>
-
-</mat-card>
-
-<div *ngFor="let hist of historicoMes()">
-
-    <mat-card *ngIf="(stringToDate(hist.data) | date : 'dd/MM/yyyy') != (selectedDate | date : 'dd/MM/yyyy')"
-        (click)="selectedDate = stringToDate(hist.data);buscaReuniao()" class="reuniaoHist m-0 p-0">
-
+@if (listPrivilegio().length > 0) {
+    <mat-card>
         <mat-card-header>
-            <a mat-flat-button (click)="remove(hist)">
-                <fa-icon class="fs-4 me-2" [icon]="['fas', 'minus']"></fa-icon>
+            <a mat-flat-button (click)="saveAll()" [disabled]="!selectedDate">
+                <fa-icon class="fs-4 me-2" [icon]="['fas', 'cloud-arrow-up']"></fa-icon>
             </a>
-            <mat-label class="h4"> {{stringToDate(hist.data) | date : 'dd/MM/yyyy - EEEE'}} </mat-label>
+            <span class="h4"> {{selectedDate | date : 'dd/MM/yyyy - EEEE'}} </span>
         </mat-card-header>
-
         <mat-card-content class="d-xl-inline-flex">
-            <mat-form-field class="example-full-width" *ngFor="let subItem of hist.designacaoList ">
-                <mat-label>{{subItem.privilegio.descricao}}</mat-label>
-                <input type="text" placeholder="{{subItem.privilegio.descricao}}" matInput
-                    [value]="subItem.voluntario.nome" [readonly]="true">
-            </mat-form-field>
+
+            @for (item of listPrivilegio(); track item.id) {
+                <mat-form-field class="example-full-width" [ngClass]="ds[item.codigo]?.alerta?.tipo"
+                    [matTooltip]="ds[item.codigo]?.alerta?.mensagem">
+
+                    <mat-label [ngClass]="ds[item.codigo]?.alerta?.tipo">{{item.descricao}}</mat-label>
+
+                    <input type="text" [placeholder]="item.descricao" matInput id="busca_{{item.codigo}}"
+                        [value]="search[item.codigo]" [disabled]="!selectedDate" [matAutocomplete]="auto"
+                        (keyup)="busca($event, item)" (focus)="busca($event, item)" [ngClass]="ds[item.codigo]?.alerta?.tipo">
+
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                        (optionSelected)="changeSelect(item, $event)">
+                        @for (voluntario of (filteredOptions[item.codigo] ?? []); track voluntario.id) {
+                            <mat-option [value]="voluntario">
+                                {{voluntario.nome}}
+                            </mat-option>
+                        }
+                    </mat-autocomplete>
+
+                    @for (err of (ds[item.codigo]?.alerta?.mensagem ?? []); track $index) {
+                        @if (err) {
+                            <mat-divider></mat-divider>
+                            <mat-error>{{err}}</mat-error>
+                            <mat-divider></mat-divider>
+                        }
+                    }
+                </mat-form-field>
+            }
         </mat-card-content>
     </mat-card>
-</div>
+}
+
+@for (hist of historicoMes(); track hist.data) {
+    @if ((stringToDate(hist.data) | date : 'dd/MM/yyyy') !== (selectedDate | date : 'dd/MM/yyyy')) {
+        <mat-card (click)="selectedDate = stringToDate(hist.data);buscaReuniao()" class="reuniaoHist m-0 p-0">
+            <mat-card-header>
+                <a mat-flat-button (click)="remove(hist)">
+                    <fa-icon class="fs-4 me-2" [icon]="['fas', 'minus']"></fa-icon>
+                </a>
+                <span class="h4"> {{stringToDate(hist.data) | date : 'dd/MM/yyyy - EEEE'}} </span>
+            </mat-card-header>
+
+            <mat-card-content class="d-xl-inline-flex">
+                @for (subItem of hist.designacaoList; track subItem.id) {
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{subItem.privilegio.descricao}}</mat-label>
+                        <input type="text" [placeholder]="subItem.privilegio.descricao" matInput
+                            [value]="subItem.voluntario.nome" readonly>
+                    </mat-form-field>
+                }
+            </mat-card-content>
+        </mat-card>
+    }
+}

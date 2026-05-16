@@ -1,5 +1,4 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
@@ -19,7 +18,6 @@ import { VoluntarioService } from './service/voluntario.service';
 @Component({
     selector: 'app-voluntario',
     imports: [
-        CommonModule,
         FormsModule,
         MatCardModule,
         MatFormFieldModule,
@@ -31,7 +29,7 @@ import { VoluntarioService } from './service/voluntario.service';
         FaIconComponent,
     ],
     templateUrl: './voluntario.component.html',
-    styleUrls: ['./voluntario.component.scss']
+    styleUrl: './voluntario.component.scss',
 })
 export class VoluntarioComponent implements OnInit {
   list = signal<Voluntario[]>([]);
@@ -109,4 +107,3 @@ export class VoluntarioComponent implements OnInit {
     return p1 && p2 ? p1.id === p2.id : p1 === p2;
   }
 }
-

@@ -3,7 +3,7 @@ import { Voluntario } from '../../voluntario/model/voluntario';
 
 export class Designacao {
     id!: number;
-    data!: String;
+    data!: string;
     voluntario!: Voluntario;
     privilegio!: Privilegio;
 }

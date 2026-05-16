@@ -1,0 +1,21 @@
+mat-toolbar {
+  z-index: 1060;
+}
+
+mat-toolbar-row {
+  cursor: pointer;
+}
+
+.settings {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  align-items: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #fff;
+
+  &:hover {
+    color: #9b9595;
+  }
+}

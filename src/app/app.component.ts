@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -18,13 +18,12 @@ import { SettingChangeColorSchemeComponent } from './settings/setting-change-col
         MatButtonModule,
         MatDividerModule,
         NgClass,
-        NgIf,
         FaIconComponent,
         MenuComponent,
         SettingChangeColorSchemeComponent,
     ],
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private authService = inject(AuthService);
@@ -46,4 +45,3 @@ export class AppComponent {
     this.authService.logOut();
   }
 }
-

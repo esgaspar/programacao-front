@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -22,7 +22,7 @@ import { SnackComponent } from '../../../snack/snack.component';
 @Component({
     selector: 'app-designacao-create',
     imports: [
-        CommonModule,
+        NgClass,
         MatAutocompleteModule,
         MatButtonModule,
         MatCardModule,
@@ -36,7 +36,7 @@ import { SnackComponent } from '../../../snack/snack.component';
         DatePipe,
     ],
     templateUrl: './designacao.create.component.html',
-    styleUrls: ['./designacao.create.component.css']
+    styleUrl: './designacao.create.component.scss',
 })
 export class DesignacaoCreateComponent implements OnInit {
   selectedDate: Date | null = null;
@@ -164,7 +164,7 @@ export class DesignacaoCreateComponent implements OnInit {
       }
     });
 
-    let listDataConflito: string | String = '';
+    let listDataConflito = '';
     this.historicoMes().forEach(mes => {
       mes.designacaoList
         .filter(d => d.privilegio.id === privilegio.id && v.id === d.voluntario.id)

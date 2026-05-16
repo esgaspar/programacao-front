@@ -2,7 +2,7 @@ import { Privilegio } from '../../privilegio/model/privilegio';
 
 export class Voluntario {
     id!: number;
-    nome!: String;
+    nome!: string;
     privilegioList: Privilegio[] = [];
     alerta: any;
     isLoading: boolean = false;
