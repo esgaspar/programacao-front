@@ -8,6 +8,7 @@ import { DesignacaoCreateComponent } from './designacao/pages/create/designacao.
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
 import { UserComponent } from './user/user.component';
+import { EscolaComponent } from './escola/escola.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
@@ -18,6 +19,9 @@ const routes: Routes = [
   { path: 'voluntario', component: VoluntarioComponent, canActivate: [AuthGuard] },
   { path: 'designacao', component: DesignacaoComponent, canActivate: [AuthGuard] },
   { path: 'designacao/novo', component: DesignacaoCreateComponent, canActivate: [AuthGuard] },
+  { path: 'escola', component: EscolaComponent, canActivate: [AuthGuard]},
+  { path: 'reuniao', component: EscolaComponent, canActivate: [AuthGuard]},
+
 ];
 
 @NgModule({

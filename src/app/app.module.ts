@@ -73,6 +73,7 @@ import { UserComponent } from './user/user.component';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { SettingChangeColorSchemeComponent } from './settings/setting-change-color-scheme/setting-change-color-scheme.component';
+import { EscolaComponent } from './escola/escola.component';
 
 
 registerLocaleData(ptBr)
@@ -89,7 +90,8 @@ registerLocaleData(ptBr)
     SnackComponent,
     LoginComponent,
     UserComponent,
-    SettingChangeColorSchemeComponent
+    SettingChangeColorSchemeComponent,
+    EscolaComponent
   ],
   imports: [
     HttpClientModule,
