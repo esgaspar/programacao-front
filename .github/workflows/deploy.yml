@@ -19,7 +19,9 @@ jobs:
             cd /home/workspace/programacao/programacao-front
             git pull origin main
             source ~/.nvm/nvm.sh
-            rm -rf .angular/cache
+            rm -rf .angular/cache node_modules
+            npm install --legacy-peer-deps
             npm run build-prod
+            cp -r dist/programacao-front/. /var/www/html/
             systemctl reload nginx
             echo "Frontend deployado com sucesso"
