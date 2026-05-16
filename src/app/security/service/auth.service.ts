@@ -25,7 +25,6 @@ export class AuthService {
             .post<any>(host + "login", { username, password })
             .pipe(
                 map(userData => {
-                    console.log("userData", userData)
                     sessionStorage.setItem("user", JSON.stringify(userData.user));
                     let tokenStr = "Bearer " + userData.token.token;
                     sessionStorage.setItem("token", tokenStr);
@@ -47,6 +46,7 @@ export class AuthService {
     logOut() {
         this._isUserLoggedIn.next(false);
         sessionStorage.removeItem("user");
+        sessionStorage.removeItem("token");
         this.router.navigate(["/login"]);
     }
 
