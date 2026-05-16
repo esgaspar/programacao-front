@@ -36,7 +36,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 
@@ -102,7 +101,7 @@ registerLocaleData(ptBr)
     MatSidenavModule, MatFormFieldModule, MatSelectModule,
     MatToolbarModule, MatGridListModule, MatDividerModule, MatExpansionModule,
     MatListModule, MatCheckboxModule, MatTableModule,
-    MatCardModule, MatDatepickerModule, MatNativeDateModule, FlexLayoutModule, FormsModule,
+    MatCardModule, MatDatepickerModule, MatNativeDateModule, FormsModule,
     MatInputModule, MatSnackBarModule,
     ReactiveFormsModule,
     NgIf,

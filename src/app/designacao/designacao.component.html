@@ -80,14 +80,14 @@
                 </span>
             </div>
 
-            <div class="header-print" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly stretch">
-                <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
+            <div class="header-print flex-row-space-evenly">
+                <div class="sec1 flex-col-15" *ngFor="let privilegio of privilegioList">
                     <span class="text">{{privilegio.descricao}}</span>
                 </div>
             </div>
             <mat-divider class="divider"></mat-divider>
-            <div class="content line" fxLayout="row" fxFlexAlign="baseline" fxLayoutAlign="space-evenly end">
-                <div fxFlex="15" class="sec1" fxFlex.xs="55" *ngFor="let privilegio of privilegioList">
+            <div class="content line flex-row-space-evenly-end">
+                <div class="sec1 flex-col-15" *ngFor="let privilegio of privilegioList">
                     <span>{{item[privilegio.codigo]}}</span>
                 </div>
                 <div>
