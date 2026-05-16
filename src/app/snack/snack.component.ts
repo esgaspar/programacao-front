@@ -4,11 +4,10 @@ import { MAT_SNACK_BAR_DATA, MatSnackBarModule, MatSnackBarRef } from '@angular/
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'snack-bar',
-  standalone: true,
-  imports: [NgIf, MatSnackBarModule, FaIconComponent],
-  templateUrl: './snack.component.html',
-  styleUrls: ['./snack.component.css'],
+    selector: 'snack-bar',
+    imports: [NgIf, MatSnackBarModule, FaIconComponent],
+    templateUrl: './snack.component.html',
+    styleUrls: ['./snack.component.css']
 })
 export class SnackComponent {
   snackBarRef = inject(MatSnackBarRef);

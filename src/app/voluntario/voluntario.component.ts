@@ -17,22 +17,21 @@ import { Voluntario } from './model/voluntario';
 import { VoluntarioService } from './service/voluntario.service';
 
 @Component({
-  selector: 'app-voluntario',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    FaIconComponent,
-  ],
-  templateUrl: './voluntario.component.html',
-  styleUrls: ['./voluntario.component.scss'],
+    selector: 'app-voluntario',
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatProgressBarModule,
+        FaIconComponent,
+    ],
+    templateUrl: './voluntario.component.html',
+    styleUrls: ['./voluntario.component.scss']
 })
 export class VoluntarioComponent implements OnInit {
   list = signal<Voluntario[]>([]);

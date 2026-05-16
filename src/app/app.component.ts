@@ -11,21 +11,20 @@ import { ColorSchemeService } from './service/color-scheme.service';
 import { SettingChangeColorSchemeComponent } from './settings/setting-change-color-scheme/setting-change-color-scheme.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    MatSidenavModule,
-    MatButtonModule,
-    MatDividerModule,
-    NgClass,
-    NgIf,
-    FaIconComponent,
-    MenuComponent,
-    SettingChangeColorSchemeComponent,
-  ],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        MatSidenavModule,
+        MatButtonModule,
+        MatDividerModule,
+        NgClass,
+        NgIf,
+        FaIconComponent,
+        MenuComponent,
+        SettingChangeColorSchemeComponent,
+    ],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   private authService = inject(AuthService);

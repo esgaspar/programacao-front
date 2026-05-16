@@ -5,11 +5,10 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../security/service/auth.service';
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  imports: [RouterLink, MatToolbarModule, FaIconComponent],
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css'],
+    selector: 'app-menu',
+    imports: [RouterLink, MatToolbarModule, FaIconComponent],
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
   @Output() onSelect = new EventEmitter<string>();

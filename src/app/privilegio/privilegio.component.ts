@@ -14,23 +14,22 @@ import { PrivilegioService } from './service/privilegio.service';
 import { SnackComponent } from '../snack/snack.component';
 
 @Component({
-  selector: 'app-privilegio',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatListModule,
-    CdkDrag,
-    CdkDragPlaceholder,
-    CdkDropList,
-    FaIconComponent,
-  ],
-  templateUrl: './privilegio.component.html',
-  styleUrls: ['./privilegio.component.css'],
+    selector: 'app-privilegio',
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatButtonModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatListModule,
+        CdkDrag,
+        CdkDragPlaceholder,
+        CdkDropList,
+        FaIconComponent,
+    ],
+    templateUrl: './privilegio.component.html',
+    styleUrls: ['./privilegio.component.css']
 })
 export class PrivilegioComponent implements OnInit {
   list = signal<Privilegio[]>([]);

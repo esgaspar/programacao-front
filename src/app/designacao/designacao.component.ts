@@ -24,28 +24,27 @@ import { DesignacaoService } from './service/designacao.service';
 import html2pdf from 'html2pdf.js';
 
 @Component({
-  selector: 'app-designacao',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatTooltipModule,
-    FaIconComponent,
-    DatePipe,
-  ],
-  templateUrl: './designacao.component.html',
-  styleUrls: ['./designacao.component.css'],
+    selector: 'app-designacao',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterLink,
+        MatButtonModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatDividerModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTableModule,
+        MatTooltipModule,
+        FaIconComponent,
+        DatePipe,
+    ],
+    templateUrl: './designacao.component.html',
+    styleUrls: ['./designacao.component.css']
 })
 export class DesignacaoComponent implements OnInit {
   @ViewChild(MatTable) table!: MatTable<any>;
@@ -159,11 +158,11 @@ export class DesignacaoComponent implements OnInit {
     const end = this.datepipe.transform(this.endDate, 'dd-MM-YYYY');
     const options = {
       filename: `Indicadores de ${start} até ${end}`,
-      margin: [0, 0.5, 0, 0.5],
-      image: { type: 'jpeg', quality: 0.98 },
+      margin: [0, 0.5, 0, 0.5] as [number, number, number, number],
+      image: { type: 'jpeg' as const, quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' },
+      jsPDF: { unit: 'cm', format: 'A4', orientation: 'portrait' as const },
     };
-    html2pdf().set(options).from(element).save();
+    html2pdf().set(options).from(element as HTMLElement).save();
   }
 }

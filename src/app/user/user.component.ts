@@ -13,20 +13,19 @@ import { UserService } from './service/user.service';
 import { SnackComponent } from '../snack/snack.component';
 
 @Component({
-  selector: 'user',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTooltipModule,
-    FaIconComponent,
-  ],
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
+    selector: 'user',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTooltipModule,
+        FaIconComponent,
+    ],
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
   list = signal<User[]>([]);

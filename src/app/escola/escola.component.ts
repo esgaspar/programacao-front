@@ -3,11 +3,10 @@ import { EscolaService } from './service/escola.service';
 import { Designacao } from '../designacao/model/designacao';
 
 @Component({
-  selector: 'escola',
-  standalone: true,
-  imports: [],
-  templateUrl: './escola.component.html',
-  styleUrls: ['./escola.component.scss'],
+    selector: 'escola',
+    imports: [],
+    templateUrl: './escola.component.html',
+    styleUrls: ['./escola.component.scss']
 })
 export class EscolaComponent implements OnInit {
   constructor(public service: EscolaService) {}

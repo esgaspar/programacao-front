@@ -6,11 +6,10 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ColorSchemeService } from '../../service/color-scheme.service';
 
 @Component({
-  selector: 'app-setting-change-color-scheme',
-  standalone: true,
-  imports: [NgFor, NgIf, MatButtonModule, MatMenuModule, FaIconComponent],
-  templateUrl: './setting-change-color-scheme.component.html',
-  styleUrls: ['./setting-change-color-scheme.component.scss'],
+    selector: 'app-setting-change-color-scheme',
+    imports: [NgFor, NgIf, MatButtonModule, MatMenuModule, FaIconComponent],
+    templateUrl: './setting-change-color-scheme.component.html',
+    styleUrls: ['./setting-change-color-scheme.component.scss']
 })
 export class SettingChangeColorSchemeComponent {
   public themes: { name: string; icon: any[] }[] = [

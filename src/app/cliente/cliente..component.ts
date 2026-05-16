@@ -3,9 +3,10 @@ import { EscolaService } from './service/cliente.service';
 import { Designacao } from '../designacao/model/designacao';
 
 @Component({
-  selector: 'escola',
-  templateUrl: './cliente.component.html',
-  styleUrls: ['./cliente.component.scss']
+    selector: 'escola',
+    templateUrl: './cliente.component.html',
+    styleUrls: ['./cliente.component.scss'],
+    standalone: false
 })
 export class EscolaComponent implements OnInit {
   constructor(public service: EscolaService) {

@@ -20,24 +20,23 @@ import { DesignacaoService } from '../../service/designacao.service';
 import { SnackComponent } from '../../../snack/snack.component';
 
 @Component({
-  selector: 'app-designacao-create',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTooltipModule,
-    FaIconComponent,
-    DatePipe,
-  ],
-  templateUrl: './designacao.create.component.html',
-  styleUrls: ['./designacao.create.component.css'],
+    selector: 'app-designacao-create',
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTooltipModule,
+        FaIconComponent,
+        DatePipe,
+    ],
+    templateUrl: './designacao.create.component.html',
+    styleUrls: ['./designacao.create.component.css']
 })
 export class DesignacaoCreateComponent implements OnInit {
   selectedDate: Date | null = null;
