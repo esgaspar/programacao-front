@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { AvatarInitialsPipe } from '../shared/pipes/avatar-initials.pipe';
 import { Privilegio } from '../privilegio/model/privilegio';
 import { PrivilegioService } from '../privilegio/service/privilegio.service';
 import { SnackComponent } from '../snack/snack.component';
@@ -27,6 +28,7 @@ import { VoluntarioService } from './service/voluntario.service';
         MatDividerModule,
         MatProgressBarModule,
         FaIconComponent,
+        AvatarInitialsPipe,
     ],
     templateUrl: './voluntario.component.html',
     styleUrl: './voluntario.component.scss',

@@ -1,36 +1,36 @@
-<mat-card class="row p-0 m-0">
-    <mat-card-header class="ps-2 pe-2 pb-0">
-        <a mat-flat-button (click)="novoVoluntario()" class="col-3 col-xl-1 p-4 m-2">
-            <fa-icon class="fs-3" [icon]="['fas', 'user-plus']"></fa-icon>
-        </a>
-        <mat-form-field appearance="outline" (click)="$event.stopPropagation()" class="col col-xl-3 me-2">
-            <input matInput type="text" [(ngModel)]="busca" (keyup.enter)="getList()" placeholder="Buscar">
-            <button matSuffix mat-icon-button aria-label="search" (click)="getList()">
-                <fa-icon [icon]="['fas', 'search']"></fa-icon>
-            </button>
-        </mat-form-field>
-    </mat-card-header>
-</mat-card>
+<div class="vol-container">
+<div class="vol-toolbar">
+    <a mat-flat-button color="primary" (click)="novoVoluntario()" class="btn-app">
+        <fa-icon [icon]="['fas', 'user-plus']"></fa-icon>
+        <span>Novo voluntário</span>
+    </a>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" (click)="$event.stopPropagation()" class="search-field">
+        <mat-label>Buscar</mat-label>
+        <input matInput type="text" [(ngModel)]="busca" (keyup.enter)="getList()" (keyup)="getList()" placeholder="Nome do voluntário">
+        <button matSuffix mat-icon-button aria-label="search" (click)="getList()">
+            <fa-icon [icon]="['fas', 'search']"></fa-icon>
+        </button>
+    </mat-form-field>
+</div>
 
-<mat-divider class="mb-2 mt-2"></mat-divider>
+<mat-divider class="mb-3"></mat-divider>
 
-<div class="row justify-content-center justify-content-lg-start justify-content-xl-start">
-
+<div class="vol-grid">
     @for (item of list(); track item.id) {
-        <mat-card class="m-1 col min-w">
+        <mat-card class="vol-card">
             @if (item.isLoading) {
                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
             }
-            <mat-card-header>
-                <mat-card-title></mat-card-title>
+            <mat-card-header class="vol-card-header">
+                <div class="vol-avatar">{{ item.nome | avatarInitials }}</div>
             </mat-card-header>
             <mat-card-content>
-                <mat-form-field appearance="outline">
-                    <mat-label>Publicador</mat-label>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Nome</mat-label>
                     <input matInput type="text" [(ngModel)]="item.nome" (keyup.enter)="salvar(item, false)"
-                        (blur)="salvar(item, false)" placeholder="Publicador">
+                        (blur)="salvar(item, false)" placeholder="Nome do publicador">
                 </mat-form-field>
-                <mat-form-field appearance="outline" class="m-0">
+                <mat-form-field appearance="outline" class="w-100 m-0">
                     <mat-label>Privilégios</mat-label>
                     <mat-select multiple [compareWith]="compareFn" [(ngModel)]="item.privilegioList"
                         (selectionChange)="salvar(item, false)">
@@ -39,14 +39,14 @@
                         }
                     </mat-select>
                 </mat-form-field>
-                <mat-divider></mat-divider>
             </mat-card-content>
-            <mat-card-footer>
-                <button mat-button (click)="removeVoluntario(item);$event.stopPropagation()">
-                    <fa-icon class="fs-4" [icon]="['fas', 'user-minus']"></fa-icon>
+            <mat-card-footer class="vol-card-footer">
+                <button mat-icon-button class="btn-remove" (click)="removeVoluntario(item);$event.stopPropagation()">
+                    <fa-icon [icon]="['fas', 'user-minus']"></fa-icon>
                 </button>
             </mat-card-footer>
         </mat-card>
     }
 </div>
-<div class="mb-3"></div>
+<div class="mb-4"></div>
+</div>

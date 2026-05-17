@@ -2,13 +2,33 @@
 @include mat.elevation-classes();
 @include mat.app-background();
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+
 :root {
   .color-scheme-dark {
-    --bs-body-bg: #303030;
+    --bs-body-bg: #1a1c2c;
+    --app-bg: #1a1c2c;
+    --app-surface: #252840;
+    --app-text: #e4e2f0;
+    --app-text-muted: #9896b8;
+    --app-border: rgba(255, 255, 255, 0.08);
+    --app-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+    --app-primary: #7986cb;
+    --app-primary-muted: rgba(121, 134, 203, 0.15);
+    --app-avatar-gradient: linear-gradient(135deg, #5c6bc0, #3949ab);
   }
 
   .color-scheme-light {
-    --bs-body-bg: #fafafa;
+    --bs-body-bg: #f0ede8;
+    --app-bg: #f0ede8;
+    --app-surface: #faf8f5;
+    --app-text: #1a1a2e;
+    --app-text-muted: #6b6889;
+    --app-border: rgba(0, 0, 0, 0.08);
+    --app-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+    --app-primary: #3f51b5;
+    --app-primary-muted: rgba(63, 81, 181, 0.08);
+    --app-avatar-gradient: linear-gradient(135deg, #3f51b5, #283593);
   }
 }
 
@@ -21,12 +41,12 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  color: var(--text-color-hard);
   font-weight: 400;
-  font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+  font-family: 'Nunito', Arial, 'Arial Unicode MS', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   word-break: normal;
+  background-color: var(--app-bg);
 }
 
 *,
@@ -53,6 +73,43 @@ $dark-theme: mat.m2-define-dark-theme((color: (primary: $dark-primary, accent: $
 
 .color-scheme-light {
   @include mat.all-component-themes($light-theme);
+
+  // Suaviza brancos do Angular Material no light mode
+  --mdc-elevated-card-container-color: #faf8f5;
+  --mdc-outlined-card-container-color: #faf8f5;
+  --mat-dialog-container-color: #faf8f5;
+  --mdc-dialog-container-color: #faf8f5;
+  --mat-expansion-panel-background-color: #faf8f5;
+  --mdc-filled-text-field-container-color: #edeae5;
+  --mat-toolbar-container-background-color: #faf8f5;
+  --mat-sidenav-container-background-color: #f0ede8;
+  --mat-sidenav-content-background-color: #f0ede8;
+  --mat-table-background-color: #faf8f5;
+  --mat-menu-container-color: #faf8f5;
+  --mdc-list-list-item-container-color: transparent;
+
+  background-color: #f0ede8;
+}
+
+.btn-app {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem;
+  height: 52px;
+  padding: 0 1.75rem;
+  background: transparent !important;
+  color: var(--app-primary, #3f51b5) !important;
+  border: 1.5px solid var(--app-primary, #3f51b5) !important;
+  border-radius: 4px !important;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: var(--app-primary-muted, rgba(63, 81, 181, 0.06)) !important;
+  }
 }
 
 // Global gradient utility

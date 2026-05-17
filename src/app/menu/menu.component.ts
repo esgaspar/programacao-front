@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../security/service/auth.service';
 
 @Component({
     selector: 'app-menu',
-    imports: [RouterLink, MatToolbarModule, FaIconComponent],
+    imports: [RouterLink, RouterLinkActive, MatDividerModule, FaIconComponent],
     templateUrl: './menu.component.html',
     styleUrl: './menu.component.scss',
 })

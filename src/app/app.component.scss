@@ -13,20 +13,56 @@
   left: 0;
 }
 
-.dashboard {
+.app-navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: auto;
+  height: 56px;
   z-index: 1000;
-  background-color: inherit;
+  background-color: var(--app-surface, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+  border-bottom: 1px solid var(--app-border, rgba(0, 0, 0, 0.08));
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-start,
+.navbar-end {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .brand-icon {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
 }
 
 .router {
-  margin-top: 3rem;
-}
-
-.logout {
-  float: right;
+  margin-top: 56px;
+  min-height: calc(100vh - 56px);
 }

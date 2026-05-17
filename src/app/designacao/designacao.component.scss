@@ -1,18 +1,153 @@
-// Inlined from vars.css
-:host-context(app-root) {
-  --margin-bottom-title: 2cm;
+$primary-color: #667eea;
+$primary-dark: #764ba2;
+
+.des-container {
+  --primary-color: #{$primary-color};
+  --primary-dark: #{$primary-dark};
+
+  --bg-primary: #faf8f5;
+  --bg-secondary: #f0ede8;
+  --bg-tertiary: #e8e5e0;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --border-color: #d8d4ce;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  padding: 2rem;
+  background: var(--bg-secondary);
+  min-height: 100vh;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.content {
-  margin-bottom: 1rem;
-  border-bottom: 1px solid brown;
-  font-size: medium;
+:host-context(body.color-scheme-dark) .des-container,
+:host-context(.color-scheme-dark) .des-container {
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #262626;
+  --bg-tertiary: #323232;
+  --text-primary: #e8e8e8;
+  --text-secondary: #b0b0b0;
+  --border-color: #3a3a3a;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+.des-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+
+.btn-pdf {
+  color: var(--text-secondary);
+  opacity: 0.7;
+  transition: opacity 0.15s, color 0.15s;
+
+  &:hover {
+    opacity: 1;
+    color: #c62828;
+  }
+}
+
+.date-field {
+  min-width: 280px;
+  margin-left: auto;
+}
+
+mat-divider {
+  border-color: var(--border-color) !important;
+}
+
+.panels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.reunion-panel {
+  border-radius: 12px !important;
+  box-shadow: var(--card-shadow) !important;
+  background: var(--bg-primary) !important;
+  --mat-expansion-container-background-color: var(--bg-primary);
+  color: var(--text-primary) !important;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.panel-body {
+  padding-top: 0.5rem;
+}
+
+.panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.btn-remove {
+  color: var(--text-secondary);
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s;
+
+  &:hover {
+    opacity: 1;
+    color: #c62828;
+  }
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.des-card {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  border: 1px solid var(--border-color) !important;
+  background: var(--bg-secondary) !important;
+  --mdc-elevated-card-container-color: var(--bg-secondary);
+  color: var(--text-primary) !important;
+
+  mat-card-content {
+    padding: 0.75rem 1rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.des-privilegio {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.des-voluntario {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+// Print section
+.print-panel {
+  margin-top: 1.5rem;
 }
 
 .header-print {
   font-weight: bold;
   font-style: oblique;
-  color: #474a51;
+  color: var(--text-secondary);
 }
 
 .flex-row-space-evenly {
@@ -39,26 +174,17 @@
   }
 }
 
-.line {
-  font-size: medium;
-}
-
 .sec1 {
   padding-right: 1rem;
 }
 
-.btnSave {
-  float: right;
+.print-content {
+  font-size: medium;
 }
 
-.action {
-  margin-bottom: 2rem;
-}
-
-.header-break {
-  page-break-before: always;
-  margin-bottom: 0.1cm;
+.divider {
   margin-top: 0.1cm;
+  margin-bottom: 0.1cm;
 }
 
 .titulo {
@@ -68,9 +194,10 @@
   margin-top: 0;
 }
 
-h1 {
-  font-size: larger;
+.header-break {
+  page-break-before: always;
   margin-bottom: 0.1cm;
+  margin-top: 0.1cm;
 }
 
 h2 {
@@ -80,34 +207,7 @@ h2 {
 
 h3 {
   font-size: medium;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0.1cm;
-}
-
-.material-icons {
-  font-size: 20px;
-}
-
-#print-section > div > div > span > h3 > span > mat-icon {
-  font-size: 100px;
-  margin: 0;
-  padding: 0;
-}
-
-.bloco {
-  // height: 3cm;
-}
-
-.divider {
-  margin-top: 0.1cm;
-  margin-bottom: 0.1cm;
-}
-
-@media print {
-  body {
-    margin: 0;
-  }
+  margin: 0 0 0 0.1cm;
 }
 
 .text {
@@ -116,4 +216,20 @@ h3 {
   display: block;
   width: 100%;
   min-width: 1px;
+}
+
+@media (max-width: 768px) {
+  .des-container {
+    padding: 1rem;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
 }

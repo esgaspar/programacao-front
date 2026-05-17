@@ -1,17 +1,40 @@
-<mat-toolbar color="primary">
-    <mat-toolbar-row [routerLink]="['designacao']" (click)="onSelect.emit('designacao')">
-        <fa-icon class="fs-4 me-2" [icon]="['far', 'calendar']"></fa-icon> <span>Designacao</span>
-    </mat-toolbar-row>
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a class="nav-item sidebar-header-link" [routerLink]="['/home']" (click)="onSelect.emit('home')">
+            <fa-icon [icon]="['fas', 'people-roof']" class="sidebar-logo"></fa-icon>
+            <div class="sidebar-brand">
+                <span class="sidebar-title">Designações</span>
+                <span class="sidebar-sub">Gestão de voluntários</span>
+            </div>
+        </a>
+    </div>
 
-    <mat-toolbar-row [routerLink]="['voluntario']" (click)="onSelect.emit('voluntario')">
-        <fa-icon class="fs-4 me-2" [icon]="['fas', 'person']"></fa-icon> <span>Voluntario</span>
-    </mat-toolbar-row>
-    <mat-toolbar-row [routerLink]="['privilegio']" (click)="onSelect.emit('privilegio')">
-        <fa-icon class="fs-4 me-2" [icon]="['fas', 'gift']"></fa-icon> Privilégio
-    </mat-toolbar-row>
-</mat-toolbar>
+    <mat-divider></mat-divider>
 
-<div class="settings">
-    <fa-icon class="fs-4 p-2" [icon]="['fas', 'gear']" [routerLink]="['config/user']"
-        (click)="onSelect.emit('config/user')"></fa-icon>
+    <nav class="sidebar-nav">
+        <a class="nav-item" [routerLink]="['designacao']" routerLinkActive="active"
+            (click)="onSelect.emit('designacao')">
+            <fa-icon [icon]="['far', 'calendar']" class="nav-icon"></fa-icon>
+            <span>Designações</span>
+        </a>
+        <a class="nav-item" [routerLink]="['voluntario']" routerLinkActive="active"
+            (click)="onSelect.emit('voluntario')">
+            <fa-icon [icon]="['fas', 'person']" class="nav-icon"></fa-icon>
+            <span>Voluntários</span>
+        </a>
+        <a class="nav-item" [routerLink]="['privilegio']" routerLinkActive="active"
+            (click)="onSelect.emit('privilegio')">
+            <fa-icon [icon]="['fas', 'shield']" class="nav-icon"></fa-icon>
+            <span>Privilégios</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <mat-divider></mat-divider>
+        <a class="nav-item" [routerLink]="['config/user']" routerLinkActive="active"
+            (click)="onSelect.emit('config/user')">
+            <fa-icon [icon]="['fas', 'gear']" class="nav-icon"></fa-icon>
+            <span>Configurações</span>
+        </a>
+    </div>
 </div>

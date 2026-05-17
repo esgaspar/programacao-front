@@ -3,7 +3,7 @@ import { Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { MenuComponent } from './menu/menu.component';
 import { AuthService } from './security/service/auth.service';
@@ -14,6 +14,7 @@ import { SettingChangeColorSchemeComponent } from './settings/setting-change-col
     selector: 'app-root',
     imports: [
         RouterOutlet,
+        RouterLink,
         MatSidenavModule,
         MatButtonModule,
         MatDividerModule,

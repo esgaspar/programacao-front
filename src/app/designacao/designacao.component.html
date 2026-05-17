@@ -1,68 +1,69 @@
-<div class="action">
-    <a mat-flat-button [routerLink]="'/designacao/novo'" class="btnSave">
-        <fa-icon class="fs-4 me-2" [icon]="['fas', 'people-roof']"></fa-icon>
-        <span>Nova reunião</span>
-    </a>
+<div class="des-container">
+    <div class="des-toolbar">
+        <a mat-flat-button [routerLink]="'/designacao/novo'" class="btn-app">
+            <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+            <span>Nova reunião</span>
+        </a>
+        <a mat-icon-button class="btn-pdf" (click)="isPrinting=true;imprimir()" matTooltip="Exportar PDF">
+            <fa-icon [icon]="['fas', 'file-pdf']"></fa-icon>
+        </a>
+        <mat-form-field appearance="outline" class="date-field">
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input matStartDate formControlName="start" placeholder="Início">
+                <input matEndDate formControlName="end" placeholder="Fim">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker>
+                <mat-date-range-picker-actions>
+                    <button mat-raised-button color="primary" matDateRangePickerApply (click)="getList()">Buscar</button>
+                </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+            @if (range.controls.start.hasError('matStartDateInvalid')) {
+                <mat-error>Data inicial inválida</mat-error>
+            }
+            @if (range.controls.end.hasError('matEndDateInvalid')) {
+                <mat-error>Data final inválida</mat-error>
+            }
+        </mat-form-field>
+    </div>
 
-    <a mat-flat-button (click)="isPrinting=true;imprimir()">
-        <fa-icon class="fs-4 me-2" [icon]="['fas', 'file-pdf']"></fa-icon>
-    </a>
+    <mat-divider class="mb-3"></mat-divider>
+
+    <div class="panels-list">
+        @for (item of reuniaoList(); track item.data) {
+            <mat-expansion-panel class="reunion-panel">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="panel-title">
+                        <mat-checkbox [checked]="item.check" (click)="print();$event.stopPropagation()"
+                            (change)="item.check = !item.check">
+                        </mat-checkbox>
+                        <span>{{stringToDate(item.data) | date : 'dd/MM/yyyy - EEEE'}}</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="panel-body">
+                    <div class="panel-actions">
+                        <button mat-icon-button class="btn-remove" (click)="remove(item)" matTooltip="Remover reunião">
+                            <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="cards-grid">
+                        @for (subItem of item.designacaoList; track subItem.id) {
+                            <mat-card class="des-card">
+                                <mat-card-content>
+                                    <span class="des-privilegio">{{subItem.privilegio.descricao}}</span>
+                                    <mat-divider></mat-divider>
+                                    <span class="des-voluntario">{{subItem.voluntario.nome}}</span>
+                                </mat-card-content>
+                            </mat-card>
+                        }
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        }
+    </div>
 </div>
 
-<div class="content">
-    <mat-form-field>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-            <input matStartDate formControlName="start" placeholder="Inicio">
-            <input matEndDate formControlName="end" placeholder="Fim">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker>
-            <mat-date-range-picker-actions>
-                <button mat-raised-button color="primary" matDateRangePickerApply (click)="getList()">Buscar</button>
-            </mat-date-range-picker-actions>
-        </mat-date-range-picker>
-
-        @if (range.controls.start.hasError('matStartDateInvalid')) {
-            <mat-error>Data inicial invalida</mat-error>
-        }
-        @if (range.controls.end.hasError('matEndDateInvalid')) {
-            <mat-error>Data final invalida</mat-error>
-        }
-    </mat-form-field>
-
-    @for (item of reuniaoList(); track item.data) {
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <mat-checkbox [checked]="item.check" (click)="print();$event.stopPropagation()"
-                        (change)="item.check = !item.check">
-                    </mat-checkbox>
-                    {{stringToDate(item.data) | date : 'dd/MM/yyyy - EEEE'}}
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="row">
-                <mat-card-header>
-                    <mat-card-actions>
-                        <a mat-flat-button (click)="remove(item)" matTooltip="Remover reunião">
-                            <fa-icon class="fs-4 me-2" [icon]="['fas', 'minus']"></fa-icon>
-                        </a>
-                    </mat-card-actions>
-                </mat-card-header>
-                @for (subItem of item.designacaoList; track subItem.id) {
-                    <mat-card class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-1 m-1">
-                        <mat-card-content>
-                            <span class="fs-5 d-inline-block text-truncate">{{subItem.privilegio.descricao}}</span>
-                            <mat-divider></mat-divider>
-                            <span class="fs-6">{{subItem.voluntario.nome}}</span>
-                        </mat-card-content>
-                    </mat-card>
-                }
-            </div>
-        </mat-expansion-panel>
-    }
-</div>
-
-<mat-expansion-panel>
+<mat-expansion-panel class="print-panel">
     <div id="print-section" class="m-0 p-0">
         <div class="titulo mt-0">
             <h2>Indicadores e Volantes</h2>
@@ -89,7 +90,7 @@
                     }
                 </div>
                 <mat-divider class="divider"></mat-divider>
-                <div class="content line flex-row-space-evenly-end">
+                <div class="print-content flex-row-space-evenly-end">
                     @for (privilegio of privilegioList(); track privilegio.id) {
                         <div class="sec1 flex-col-15">
                             <span>{{item[privilegio.codigo]}}</span>

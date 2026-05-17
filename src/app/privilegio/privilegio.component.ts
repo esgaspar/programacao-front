@@ -2,12 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Privilegio } from './model/privilegio';
 import { PrivilegioService } from './service/privilegio.service';
@@ -18,14 +13,7 @@ import { SnackComponent } from '../snack/snack.component';
     imports: [
         FormsModule,
         MatButtonModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatListModule,
         MatTooltipModule,
-        CdkDrag,
-        CdkDragPlaceholder,
-        CdkDropList,
         FaIconComponent,
     ],
     templateUrl: './privilegio.component.html',
@@ -33,7 +21,7 @@ import { SnackComponent } from '../snack/snack.component';
 })
 export class PrivilegioComponent implements OnInit {
   list = signal<Privilegio[]>([]);
-  expandedItem = signal<Privilegio | null>(null);
+  editingItem = signal<Privilegio | null>(null);
 
   constructor(
     private service: PrivilegioService,
@@ -50,22 +38,52 @@ export class PrivilegioComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    const current = this.list();
-    current[event.previousIndex].ordem = event.currentIndex;
-    moveItemInArray(current, event.previousIndex, event.currentIndex);
-    for (let i = 0; i < current.length; i++) {
-      current[i].ordem = i;
-    }
-    this.list.set([...current]);
+  moveUp(index: number) {
+    if (index === 0) return;
+    const list = [...this.list()];
+    [list[index - 1], list[index]] = [list[index], list[index - 1]];
+    this.saveOrder(list);
+  }
 
-    this.service.saveAll(this.list()).subscribe({
+  moveDown(index: number) {
+    const list = [...this.list()];
+    if (index === list.length - 1) return;
+    [list[index], list[index + 1]] = [list[index + 1], list[index]];
+    this.saveOrder(list);
+  }
+
+  saveOrder(list: Privilegio[]) {
+    list.forEach((item, i) => item.ordem = i);
+    this.list.set(list);
+    this.service.saveAll(list).subscribe({
       error: () => this.openSnackBar('Erro ao salvar', 'ok', 'error'),
     });
   }
 
   novo() {
-    this.list.update(l => [new Privilegio(), ...l]);
+    const novoItem = new Privilegio();
+    this.list.update(l => [novoItem, ...l]);
+    this.editingItem.set(novoItem);
+  }
+
+  startEdit(item: Privilegio, event: Event) {
+    event.stopPropagation();
+    this.editingItem.set(item);
+  }
+
+  saveEdit(item: Privilegio, event: Event) {
+    event.stopPropagation();
+    if (!item.descricao?.trim()) return;
+    this.editingItem.set(null);
+    this.salvar(item);
+  }
+
+  cancelEdit(item: Privilegio, event: Event) {
+    event.stopPropagation();
+    this.editingItem.set(null);
+    if (!item.id) {
+      this.list.update(l => l.filter(v => v !== item));
+    }
   }
 
   salvar(privilegio: Privilegio, sendMsg = true) {

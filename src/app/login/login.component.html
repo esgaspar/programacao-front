@@ -1,36 +1,48 @@
-<div class="box-container">
-    <mat-card class="box">
-        <mat-card-header>
-            <h1>Login</h1>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-form-field class="col-12" appearance="outline">
-                <mat-label>Usuario</mat-label>
+<div class="login-page">
+    <div class="login-brand">
+        <div class="brand-content">
+            <div class="brand-icon-wrap">
+                <fa-icon [icon]="['fas', 'people-roof']"></fa-icon>
+            </div>
+            <h1>Designações</h1>
+            <p>Sistema de gestão de voluntários</p>
+        </div>
+    </div>
+
+    <div class="login-form-panel">
+        <div class="login-form-box">
+            <h2>Entrar</h2>
+            <p class="form-sub">Acesse sua conta para continuar</p>
+
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Usuário</mat-label>
                 <input (keyup)="loginError = false" matInput [formControl]="usernameFormControl"
-                    [errorStateMatcher]="matcher" placeholder="Usuario">
+                    [errorStateMatcher]="matcher" placeholder="Usuário" (keyup.enter)="login()">
                 @if (usernameFormControl.hasError('required')) {
-                    <mat-error>Insira o usuario</mat-error>
+                    <mat-error>Insira o usuário</mat-error>
                 }
             </mat-form-field>
-            <mat-form-field class="col-12" appearance="outline">
+
+            <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Senha</mat-label>
                 <input (keyup)="loginError = false" matInput type="password" [formControl]="passwordFormControl"
-                    [errorStateMatcher]="matcher" placeholder="Senha">
+                    [errorStateMatcher]="matcher" placeholder="Senha" (keyup.enter)="login()">
                 @if (passwordFormControl.hasError('required')) {
                     <mat-error>Insira a senha</mat-error>
                 }
             </mat-form-field>
-            @if (loginError) {
-                <mat-error>Usuario ou senha incorretos</mat-error>
-            }
-        </mat-card-content>
 
-        <mat-card-footer>
-            <mat-card-actions class="d-flex align-items-end flex-column">
-                <a mat-flat-button (click)="login()" class="btnSave ml-auto">
-                    <fa-icon class="fs-2" [icon]="['fas', 'door-open']"></fa-icon>
-                </a>
-            </mat-card-actions>
-        </mat-card-footer>
-    </mat-card>
+            @if (loginError) {
+                <div class="login-error">
+                    <fa-icon [icon]="['fas', 'triangle-exclamation']"></fa-icon>
+                    <span>Usuário ou senha incorretos</span>
+                </div>
+            }
+
+            <button mat-flat-button color="primary" class="btn-login" (click)="login()">
+                Entrar
+                <fa-icon [icon]="['fas', 'arrow-right']" class="ms-2"></fa-icon>
+            </button>
+        </div>
+    </div>
 </div>

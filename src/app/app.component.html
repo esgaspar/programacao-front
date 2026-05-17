@@ -4,24 +4,27 @@
         </app-menu>
     </mat-drawer>
     <mat-drawer-content>
-
-        <div class="dashboard">
-            @if (isUserLoggedIn()) {
-                <button mat-flat-button (click)="drawer.toggle()">
-                    <fa-icon class="fs-2" [icon]="['fas', 'bars']"></fa-icon>
-                </button>
-            }
-
-            @if (isUserLoggedIn()) {
-                <button class="logout" mat-flat-button (click)="logout()">
-                    <fa-icon class="fs-2" [icon]="['fas', 'right-from-bracket']"></fa-icon>
-                </button>
-            }
-
-            <app-setting-change-color-scheme class="logout"></app-setting-change-color-scheme>
-
-            <mat-divider class="menu"></mat-divider>
-        </div>
+        <header class="app-navbar">
+            <div class="navbar-start">
+                @if (isUserLoggedIn()) {
+                    <button mat-icon-button class="menu-btn" (click)="drawer.toggle()">
+                        <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+                    </button>
+                }
+                <a class="app-brand" [routerLink]="['/home']">
+                    <fa-icon [icon]="['fas', 'people-roof']" class="brand-icon"></fa-icon>
+                    <span class="brand-name">Designações</span>
+                </a>
+            </div>
+            <div class="navbar-end">
+                <app-setting-change-color-scheme></app-setting-change-color-scheme>
+                @if (isUserLoggedIn()) {
+                    <button mat-icon-button (click)="logout()">
+                        <fa-icon [icon]="['fas', 'right-from-bracket']"></fa-icon>
+                    </button>
+                }
+            </div>
+        </header>
 
         <div class="router">
             <router-outlet></router-outlet>

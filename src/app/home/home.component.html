@@ -1,3 +1,29 @@
-<div class="content" role="main">
-    <p>home works!</p>
+<div class="home-page">
+    <div class="home-header">
+        <h1>Bem-vindo</h1>
+        <p>Acesse as funcionalidades pelo menu lateral ou pelos atalhos abaixo.</p>
+    </div>
+    <div class="quick-actions">
+        <a [routerLink]="'/designacao'" class="action-card">
+            <div class="action-icon-wrap">
+                <fa-icon [icon]="['far', 'calendar']"></fa-icon>
+            </div>
+            <span class="action-title">Designações</span>
+            <span class="action-desc">Gerenciar a escala de reuniões</span>
+        </a>
+        <a [routerLink]="'/voluntario'" class="action-card">
+            <div class="action-icon-wrap">
+                <fa-icon [icon]="['fas', 'person']"></fa-icon>
+            </div>
+            <span class="action-title">Voluntários</span>
+            <span class="action-desc">Cadastro de publicadores</span>
+        </a>
+        <a [routerLink]="'/privilegio'" class="action-card">
+            <div class="action-icon-wrap">
+                <fa-icon [icon]="['fas', 'shield']"></fa-icon>
+            </div>
+            <span class="action-title">Privilégios</span>
+            <span class="action-desc">Funções e designações</span>
+        </a>
+    </div>
 </div>

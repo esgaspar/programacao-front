@@ -1,66 +1,74 @@
 <div class="privilegio-container">
-  <button mat-raised-button class="btn-novo" (click)="novo()">
+  <button mat-raised-button class="btn-app" (click)="novo()">
     <fa-icon [icon]="['fas', 'plus']"></fa-icon>
     <span>Novo Privilégio</span>
   </button>
 
-  <div cdkDropList class="cards-grid" (cdkDropListDropped)="drop($event)">
-    @for (item of list(); track item.id) {
-      <div class="card-wrapper" cdkDrag>
-        <div class="card-placeholder" *cdkDragPlaceholder></div>
+  <div class="cards-grid">
+    @for (item of list(); track item.id; let i = $index; let first = $first; let last = $last) {
+      <div class="privilegio-card">
+        <div class="order-strip">
+          <button mat-icon-button class="btn-order" (click)="moveUp(i)" [disabled]="first" matTooltip="Mover para cima">
+            <fa-icon [icon]="['fas', 'chevron-up']"></fa-icon>
+          </button>
+          <span class="order-index">{{ i + 1 }}</span>
+          <button mat-icon-button class="btn-order" (click)="moveDown(i)" [disabled]="last" matTooltip="Mover para baixo">
+            <fa-icon [icon]="['fas', 'chevron-down']"></fa-icon>
+          </button>
+        </div>
 
-        <div class="privilegio-card">
+        <div class="card-content">
           <div class="card-header">
-            <div class="header-content">
-              <fa-icon class="icon-tipo" [icon]="['fas', 'shield']"></fa-icon>
+            <fa-icon class="icon-tipo" [icon]="['fas', 'shield']"></fa-icon>
+
+            @if (editingItem() === item) {
+              <input class="name-input" [(ngModel)]="item.descricao"
+                placeholder="Nome do privilégio"
+                (keydown.enter)="saveEdit(item, $event)"
+                (keydown.escape)="cancelEdit(item, $event)"
+                (click)="$event.stopPropagation()"
+                autofocus>
+            } @else {
               <div class="title-section">
                 <h3 class="privilegio-name">{{ item.descricao || 'Novo privilégio' }}</h3>
                 <span class="badge badge-info">{{ item.voluntarioList?.length || 0 }} voluntários</span>
               </div>
-            </div>
-            <button mat-icon-button class="btn-remove" (click)="remove(item)" matTooltip="Remover">
-              <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-            </button>
-          </div>
+            }
 
-          <mat-expansion-panel class="content-panel pe-2"
-              [expanded]="expandedItem() === item"
-              (opened)="expandedItem.set(item)"
-              (closed)="expandedItem() === item && expandedItem.set(null)">
-            <mat-expansion-panel-header>
-              <mat-panel-title (keydown.Space)="$event.stopPropagation()">
-                <span class="panel-title ms-2">Editar privilégio</span>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div class="card-edit">
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Nome do privilégio</mat-label>
-                <input matInput type="text" [(ngModel)]="item.descricao"
-                  placeholder="Ex: Ministração" (click)="$event.stopPropagation()">
-                <button [disabled]="!item.descricao" matSuffix mat-icon-button
-                  (click)="salvar(item);$event.stopPropagation()" matTooltip="Salvar">
+            <div class="card-actions">
+              @if (editingItem() === item) {
+                <button mat-icon-button (click)="saveEdit(item, $event)" matTooltip="Salvar" [disabled]="!item.descricao?.trim()">
                   <fa-icon [icon]="['fas', 'check']"></fa-icon>
                 </button>
-              </mat-form-field>
+                <button mat-icon-button (click)="cancelEdit(item, $event)" matTooltip="Cancelar">
+                  <fa-icon [icon]="['fas', 'xmark']"></fa-icon>
+                </button>
+              } @else {
+                <button mat-icon-button (click)="startEdit(item, $event)" matTooltip="Editar nome">
+                  <fa-icon [icon]="['fas', 'pen']"></fa-icon>
+                </button>
+                <button mat-icon-button class="btn-remove" (click)="remove(item)" matTooltip="Remover">
+                  <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                </button>
+              }
             </div>
+          </div>
 
-            @if (item.voluntarioList?.length) {
-              <div class="volunteers-section">
-                @for (vol of item.voluntarioList; track vol.id) {
-                  <div class="volunteer-item">
-                    <fa-icon [icon]="['fas', 'user-check']" class="volunteer-icon"></fa-icon>
-                    <span class="volunteer-name">{{ vol.nome }}</span>
-                  </div>
-                }
-              </div>
-            } @else {
-              <div class="empty-state">
-                <fa-icon [icon]="['fas', 'inbox']"></fa-icon>
-                <span>Nenhum voluntário atribuído</span>
-              </div>
-            }
-          </mat-expansion-panel>
+          @if (item.voluntarioList?.length) {
+            <div class="volunteers-section">
+              @for (vol of item.voluntarioList; track vol.id) {
+                <div class="volunteer-item">
+                  <fa-icon [icon]="['fas', 'user-check']" class="volunteer-icon"></fa-icon>
+                  <span class="volunteer-name">{{ vol.nome }}</span>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="empty-state">
+              <fa-icon [icon]="['fas', 'inbox']"></fa-icon>
+              <span>Nenhum voluntário atribuído</span>
+            </div>
+          }
         </div>
       </div>
     }
