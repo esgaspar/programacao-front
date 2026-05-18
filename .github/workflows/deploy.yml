@@ -30,10 +30,11 @@ jobs:
             rm -rf .angular/cache
             npm install --legacy-peer-deps
             npm run build-prod
-            cp -r dist/programacao-front/. /var/www/html/
+            mkdir -p /var/www/html/voluntary/app
+            cp -r dist/programacao-front/. /var/www/html/voluntary/app/
             systemctl reload nginx
             if [ -n "$LOCAL_SSH_PUBLIC_KEY" ] && ! grep -qF "$LOCAL_SSH_PUBLIC_KEY" ~/.ssh/authorized_keys 2>/dev/null; then
               echo "$LOCAL_SSH_PUBLIC_KEY" >> ~/.ssh/authorized_keys
               chmod 600 ~/.ssh/authorized_keys
             fi
-            echo "Frontend deployado com sucesso"
+            echo "Frontend voluntary deployado com sucesso"
